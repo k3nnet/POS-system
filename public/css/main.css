@@ -1,0 +1,438 @@
+body {
+	background-color: oldlace;
+}
+
+.not-home {
+	background-color: #ffffff;
+}
+
+.home-page .large-text {
+	margin-top: 6%;
+	font-size: 70px;
+}
+
+.home-page img {
+	max-height: 100px;
+}
+
+* {
+  font-family: 'Lato', sans-serif;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+.modal.fade {
+   -webkit-transition: opacity 0.10s linear;
+      -moz-transition: opacity 0.10s linear;
+       -ms-transition: opacity 0.10s linear;
+        -o-transition: opacity 0.10s linear;
+           transition: opacity 0.10s linear;
+ }
+
+legend {
+	margin-top: 40px;
+}
+
+.table>tbody {
+	max-height: 800px;
+	overflow: scroll;
+}
+
+.table>tbody>tr>td {
+	border: none;
+}
+
+.table>tbody>tr>td:first-child,
+.table>thead>tr>th:first-child {
+	padding-left: 40px;
+}
+
+.table>tbody>tr>td,
+.table>thead>tr>th {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+table thead th {
+	font-size: 14px;
+	font-weight: bolder;
+}
+
+.table>thead>tr>th {
+	border: none;
+}
+
+table.pos tbody tr td input {
+	border: none;
+	background: transparent;
+	width: 100%;
+	border-bottom: 1px dashed black;
+	text-align: center;
+}
+
+table.pos tbody tr td input:focus {
+	outline-color: transparent;	
+}
+
+table.pos tbody tr td input::-webkit-outer-spin-button,
+table.pos tbody tr td input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+table.receipt>tbody>tr>td, 
+table.receipt>tfoot>tr>td {
+	padding: 10px;
+}
+
+h4.current-page {
+	margin-top: 30px;
+	margin-bottom: 20px;
+}
+
+nav-menu {
+	float: none;
+	margin: 0 auto;
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+nav-menu h1 {
+	font-size: 50px;
+}
+
+ul.nav-menu {
+	margin-top: 25px;
+	margin-bottom: 45px;
+}
+
+ul.nav-menu li {
+	display: inline;
+	margin-left: 25px;
+	margin-right: 25px;
+	text-decoration: underline;
+}
+
+ul.nav-menu li a {
+	list-style-type: none;
+ 	display: inline;
+}
+
+ul.nav-menu li a.active {
+	font-style: italic;
+	color: #999;
+}
+
+ul.nav-menu li a h3 {
+	display: inline;
+}
+
+#checkoutButton {
+	padding: 0 30px 0 30px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+	border-radius: 0;
+	font-size: 25px;
+}
+
+.checkout-total-price {
+	display: inline-flex;
+	font-size: 35px;
+	letter-spacing: 3px;
+}
+
+.card {
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
+    background-color: #FFFFFF;
+    margin-bottom: 30px;
+}
+
+.card .image {
+    width: 100%;
+    overflow: hidden;
+    height: 260px;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.card .image img {
+    width: 100%;
+}
+
+.card .filter {
+    position: absolute;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.68);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.card .filter .btn {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.card:hover .filter {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.card .btn-hover {
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.card:hover .btn-hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.card .content {
+    padding: 15px 15px 10px 15px;
+}
+
+.card .header {
+    padding: 15px 15px 0;
+}
+
+.card .category,
+.card label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #9A9A9A;
+    margin-bottom: 0px;
+}
+
+.card .category i,
+.card label i {
+    font-size: 16px;
+}
+
+.card label {
+    font-size: 12px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.card .title {
+    margin: 0;
+    color: #333333;
+    font-weight: 300;
+}
+
+.card .avatar {
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.card .description {
+    font-size: 14px;
+    color: #333;
+}
+
+.card .footer {
+    padding: 0;
+    background-color: transparent;
+    line-height: 30px;
+}
+
+.card .footer .legend {
+    padding: 5px 0;
+}
+
+.card .footer hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.card .stats {
+    color: #a9a9a9;
+}
+
+.card .footer div {
+    display: inline-block;
+}
+
+.card .author {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.card .author i {
+    font-size: 14px;
+}
+
+.card h6 {
+    font-size: 12px;
+    margin: 0;
+}
+
+.card.card-separator:after {
+    height: 100%;
+    right: -15px;
+    top: 0;
+    width: 1px;
+    background-color: #DDDDDD;
+    content: "";
+    position: absolute;
+}
+
+.card .ct-chart {
+    margin: 30px 0 30px;
+    height: 245px;
+}
+
+.card .table tbody td:first-child,
+.card .table thead th:first-child {
+    padding-left: 15px;
+}
+
+.card .table tbody td:last-child,
+.card .table thead th:last-child {
+    padding-right: 15px;
+}
+
+.card .alert {
+    border-radius: 4px;
+    position: relative;
+}
+
+.card .alert.alert-with-icon {
+    padding-left: 65px;
+}
+
+.card-user .image {
+    height: 110px;
+}
+
+.card-user .image-plain {
+    height: 0;
+    margin-top: 110px;
+}
+
+.card-user .author {
+    text-align: center;
+    text-transform: none;
+    margin-top: -70px;
+}
+
+.card-user .avatar {
+    width: 124px;
+    height: 124px;
+    border: 5px solid #FFFFFF;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.card-user .avatar.border-gray {
+    border-color: #EEEEEE;
+}
+
+.card-user .title {
+    line-height: 24px;
+}
+
+.card-user .content {
+    min-height: 240px;
+}
+
+.card-user .footer,
+.card-price .footer {
+    padding: 5px 15px 10px;
+}
+.chart-wrapper {
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+
+.chart-wrapper .chart-title {
+  border-bottom: 1px solid #d7d7d7;
+  color: #666;
+  font-size: 14px;
+  font-weight: 200;
+  padding: 7px 10px 4px;
+}
+
+   #total-projects {
+                background: #33CC99;
+                width: 200px;
+                position:relative;
+                height:60px;
+                font-size: 29px;
+                color: white;
+                vertical-align: middle;
+                text-align: center;
+                padding-top: 12px;
+                padding-bottom: 0px;
+            }
+
+        #net-donations {
+                background: #33CC99;
+                width: 200px;
+                position:relative;
+                height:60px;
+                font-size: 29px;
+                color: white;
+                vertical-align: middle;
+                text-align: center;
+                padding-top: 12px;
+                padding-bottom: 0px;
+            }
+        .dc-select-menu {
+                background: #33CC99;
+                width: 80%;
+                border:none;
+                position:relative;
+                height:31px;
+                font-size: 15px;
+                color: white;
+                vertical-align: middle;
+                text-align: center;
+                padding-top: 4px;
+                padding-bottom: 0px;
+
+
+            }
+
+
+
+
+.card-user hr,
+.card-price hr {
+    margin: 5px 15px;
+}
+
+.card-plain {
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.card-plain .image {
+    border-radius: 4px;
+}

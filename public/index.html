@@ -1,0 +1,82 @@
+<html ng-app="POS">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="mobile-web-app-capable" content="yes">
+	<title>POS System</title>
+	<link href="//fonts.googleapis.com/css?family=Lato:300,300italic|Inconsolata" rel="stylesheet" type="text/css">
+	<link href='http://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="/icono/dist/icono.min.css">
+	<link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/main.css">
+
+	<link rel="stylesheet" href="/css/w3/w3.css">
+	<link rel="stylesheet" href="/css/dc.css">
+				
+
+	<link rel="stylesheet" href="odometer/themes/odometer-theme-minimal.css" />
+</head>
+
+<body ng-controller="body" class="container" ng-class="{ 'not-home': !onHomePage() }">
+
+<h1 class="text-center">
+	<a href="/#/">{{settings.store_name}}  POS</a>
+</h1>
+	<nav-menu ng-hide="onHomePage()"></nav-menu>
+
+	<div ng-view></div>
+
+	<script src="/jquery/dist/jquery.min.js"></script>
+	<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="/angular/angular.min.js"></script>
+	<script src="/socket.io-client/socket.io.js"></script>
+
+	<script src="/angular-route/angular-route.min.js"></script>
+	<script src="/angular-animate/angular-animate.min.js"></script>
+	 <script src="/angular-bootstrap/ui-bootstrap.min.js"></script>
+	<script src="/lodash/lodash.min.js"></script>
+	 <script src="/angular-ui-router/release/angular-ui-router.min.js"></script>
+	  <script src="/moment/moment.js"></script>
+
+         <script src="/angular-messages/angular-messages.min.js"></script>
+          <script src="/angular-aria/angular-aria.min.js"></script>
+           <script src="/angular-material/angular-material.min.js"></script>
+	  <script src="/angular-sanitize/angular-sanitize.min.js"></script>
+	<script src='/angular-upload/angular-upload.min.js'></script>
+	<script src="/odometer/odometer.min.js"></script>
+	<script src="/angular-odometer-js/dist/angular-odometer.min.js"></script>
+
+
+	
+
+
+	</script>
+
+		<script src="/js/instascan.min.js"></script>
+
+	<script src="/js/pos.js"></script>
+	<script src="/js/routes.js"></script>
+	<script src="/js/services.js"></script>
+	<script src="/js/directives.js"></script>
+	<script>
+		
+	    	window.onload = function () {
+				
+				var barcode = document.getElementById('barcode');
+				if (barcode) {
+					barcode.focus();
+					barcode.select();
+				}
+
+	    	};
+		</script>
+
+		<script src='/js/crossfilter.js' type='text/javascript'></script>
+	<script src='/js/d3.js' type='text/javascript'></script>
+	<script src='/js/dc.js' type='text/javascript'></script>
+	<script src='/js/queue.js' type='text/javascript'></script>
+
+	<script src='js/Dashboard.js' type='text/javascript'>
+</body>
+
+</html>

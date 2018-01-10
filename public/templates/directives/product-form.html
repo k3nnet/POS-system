@@ -1,0 +1,67 @@
+<form class="form-horizontal col-md-6 col-centered" name="newProductForm" ng-submit="newProductForm.$valid && save()">
+
+	<div class="form-group" ng-class="{ 'has-error': newProductForm.barcode.$error.required }">
+	  <label class="col-md-4 control-label" for="barcode">Barcode</label>  
+	  <div class="col-md-4">
+	  	<input 
+	  		id="barcode" 
+	  		name="barcode" 
+	  		placeholder="Barcode" 
+	  		class="form-control"
+	  		ng-model="product.barcode"
+	  		ng-keypress="tabOnEnter($event)"
+	  		required>
+	  </div>
+	</div>
+
+	<div class="form-group">
+	  <label class="col-md-4 control-label" for="name">Name</label>  
+	  <div class="col-md-4">
+	  	<input 
+	  		name="name" 
+	  		placeholder="Name" 
+	  		class="form-control"
+	  		ng-model="product.name"> 
+	  </div>
+	</div>
+
+	<div class="form-group" ng-class="{ 'has-error': newProductForm.price.$error.required }">
+	  <label class="col-md-4 control-label" for="price">Price</label>  
+	  <div class="col-md-4">
+	  	<input 
+	  		name="price" 
+	  		placeholder="Price" 
+	  		class="form-control"
+	  		type="number"
+	  		step="any"
+	  		min="0"
+	  		ng-model="product.price" 
+	  		required>
+	  </div>
+	</div>
+
+
+
+
+
+	<div class="form-group">
+	  <label class="col-md-4 control-label" for="food">Is it food?</label>  
+	  <div class="col-md-4">
+	  	<input 
+	  		name="food" 
+	  		class="form-control"
+	  		type="checkbox"
+	  		ng-model="product.food"> 
+	  </div>
+	</div>
+
+	<br/> <br/> <br/>
+	<div class="text-center">
+		<button 
+			type="submit" 
+			ng-disabled="!newProductForm.$valid || newProductForm.$pristine" 
+			class="btn btn-success btn-lg col-centered">
+			Submit
+		</button>
+	</div>
+</form>

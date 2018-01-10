@@ -1,0 +1,113 @@
+
+
+<div class="container-fluid" >
+    <div class="container-fluid">
+
+        <div class="row"  >
+           
+
+            <div class="col-sm-3 panel panel-default">
+                <div class="panel-header">Revenue</div>
+                <div class="panel-body text-primary">
+                   <span > R57800</span>
+                </div>
+            </div>
+            <div class="col-sm-3 panel panel-default">
+                <div class="panel-header"> Sales</div>
+                <div id="totalSales" class="panel-body text-danger"></div>
+            </div>
+
+
+            <div class="col-sm-3 panel panel-default pull-right" id="row-selection">
+                
+                <span>
+							<a href='javascript:dc.filterAll();dc.redrawAll();'><font color="#33CC99">Reset All</font></a>
+						</span>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="header">
+                        <h4 class="title">2018 Sales</h4>
+                        <p class="category">All products</p>
+                    </div>
+                    <div class="content">
+                        <div id="resource-chart" class="ct-chart"></div>
+
+                        <div class="footer">
+
+                            <div class="stats">
+                                <i class="fa fa-check"></i> updated
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+
+                    <div class="header">
+                        <h4 class="title">Sales By Product</h4>
+                        <p class="category">Most Selling Product To Date</p>
+                    </div>
+                    <div class="content">
+                        <div id="funding-chart" class="ct-chart ct-perfect-fourth"></div>
+
+
+                        <div class="footer">
+
+                            <div class="stats">
+                                <i class="fa fa-clock-o"></i> Campaign sent 2 days ago
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Sales by Month</h4>
+                        <p class="category">Excluding tax</p>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div id="state-donations" class="col-sm-8 ct-chart"></div>
+                            <div class="col-sm-4 text-center my-auto">
+                                <div id="totalQty" class="h4 mb-0 text-primary"></div>
+                                <div class="small text-muted">SALES PER DAY</div>
+                                <hr>
+                                <div id="revenue" class="h4 mb-0 text-warning">R</div>
+                                <div class="small text-muted">REVENUE PER WEEK</div>
+                                <hr>
+                                <div class="h4 mb-0 text-success">R16,219</div>
+                                <div class="small text-muted">REVENUE PER MONTH</div>
+                            </div>
+                        </div>
+                        <div class="footer">
+
+                            <div class="stats">
+                                <i class="fa fa-history"></i> Updated 3 minutes ago
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<style>
+    body{
+        background-color: oldlace;
+    }
+</style>
