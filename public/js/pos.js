@@ -465,7 +465,7 @@ function makeGraphs(error, apiData) {
       b.month =dateFormat(d.date).slice(3, 6);
       b.day= dayFormat(d.date).slice(0,3);
       b.year=dateFormat(d.date).slice(7, 11);
-      b.week=dayFormat(d.date).slice(3, 6);
+      b.week=dayFormat(d.date).slice(4, 6);
 
       b.price=+b.price;
       b.total=b.price*b.quantity;
@@ -500,6 +500,10 @@ function makeGraphs(error, apiData) {
 
 
 	//Define Dimensions
+
+  var allDim=mdx.dimension(function(d){
+    return d;
+  })
 
   var dayDim=mdx.dimension(function(d){
     return d.day;
@@ -552,6 +556,8 @@ function makeGraphs(error, apiData) {
   var productByDate=dateDim.group();
   var monthGroup=monthDim.group();
   var productByBarcode=barcodeDim.group()
+  var dayGroup=dayDim.group();
+  var weekGroup=weekDim.group();
   var dayGroup=dayDim.group();
   
 
@@ -608,6 +614,10 @@ function makeGraphs(error, apiData) {
     return d.quantity;
   })
 
+  var totalPerDay=dayDim.group().reduceSum(function(d){
+    return d.total;
+  })
+
 var qtyPerMonth=monthDim.group().reduceSum(function(d){
   
   return d.quantity;
@@ -615,7 +625,7 @@ var qtyPerMonth=monthDim.group().reduceSum(function(d){
 
 
   console.log(netTotal.value())
-	print_filter('netTotal')
+	print_filter('allDim')
   
 
 
@@ -690,19 +700,23 @@ var productQuantity = dc.barChart("#state-donations");
 		.radius(100)
 		.innerRadius(40)
 		.transitionDuration(1000)
-	   .dimension(barcodeDim)
-      .group(quantityPerCode)
+	   .dimension(productNameDim)
+      .group(quantityPerProduct)
+      .externalLabels(10)
+      .legend(dc.legend())
+      
 
      productQuantity
 		//.width(800)
         .height(220)
         .transitionDuration(1000)
-         .dimension(dateDim)
-        .group(totalPerDate)
+         .dimension(dayDim)
+        .group(totalPerDay,"total")
         .margins({ top: 10, right: 50, bottom: 30, left: 50 })
         .centerBar(false)
         .gap(5)
         .elasticY(true)
+        .elasticX(true)
         .x(d3.scale.ordinal().domain(dateDim))
         .xUnits(dc.units.ordinal)
         .yAxisLabel("total per Day (R)")
