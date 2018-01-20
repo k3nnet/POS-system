@@ -1,15 +1,13 @@
-
-
-<div class="container-fluid" >
+<div class="container-fluid">
     <div class="container-fluid">
 
-        <div class="row"  >
-           
+        <div class="row">
+
 
             <div class="col-sm-3 panel panel-default">
                 <div class="panel-header">Revenue</div>
                 <div class="panel-body text-primary">
-                   <span > R57800</span>
+                    <span> R57800</span>
                 </div>
             </div>
             <div class="col-sm-3 panel panel-default">
@@ -19,7 +17,7 @@
 
 
             <div class="col-sm-3 panel panel-default pull-right" id="row-selection">
-                
+
                 <span>
 							<a href='javascript:dc.filterAll();dc.redrawAll();'><font color="#33CC99">Reset All</font></a>
 						</span>
@@ -41,16 +39,17 @@
                         <div class="footer">
 
                             <div class="stats">
-                                <i class="fa fa-check"></i> updated
+                                <i class="fa fa-check"></i> Updated {{updated}} minutes ago
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
 
 
         </div>
-        
+
         <div class="row">
             <div class="col-md-6">
                 <div class="card">
@@ -66,7 +65,7 @@
                         <div class="footer">
 
                             <div class="stats">
-                                <i class="fa fa-clock-o"></i> Campaign sent 2 days ago
+                                <i class="fa fa-clock-o"></i> Updated {{updated}} minutes ago
                             </div>
                         </div>
                     </div>
@@ -76,7 +75,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Sales by Month</h4>
+                        <h4 class="title">Sales by Day</h4>
                         <p class="category">Excluding tax</p>
                     </div>
                     <div class="content">
@@ -96,18 +95,18 @@
                         <div class="footer">
 
                             <div class="stats">
-                                <i class="fa fa-history"></i> Updated 3 minutes ago
+                                <i class="fa fa-history"></i> Updated {{updated}} minutes ago
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 <style>
-    body{
+    body {
         background-color: oldlace;
     }
 </style>

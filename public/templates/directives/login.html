@@ -4,7 +4,7 @@
 <!-- Modal -->
 
 
-<div ng-controller="loginController" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div  class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,10 +16,11 @@
                 <form class="form-horizontal" name="addManualItemForm">
 
                     <h4 style="color: #7EB59E; margin: initial; margin-bottom: 10px; text-align:center;">Login Now</h4>
+                    <h5 class="w3-text w3-red">{{message}}</h5>
                     <hr>
                     <div class="input-group margin-bottom-20">
                         <span class="input-group-addon"><i class="fa fa-user mycolor"></i></span>
-                        <input size="60" maxlength="255" class="form-control" placeholder="User Name"  ng-model="user.name" name="UserRegistration[username]" id="UserRegistration_username"
+                        <input size="60" maxlength="255" class="form-control" placeholder="User Name or email address"  ng-model="user.name" name="UserRegistration[username]" id="UserRegistration_username"
                             type="text">
                     </div>
                     <div class="input-group margin-bottom-20">
@@ -33,7 +34,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addManualItemForm.$valid && login(user)">login</button>
+                <button type="button" class="btn btn-primary" ng-click="addManualItemForm.$valid && login(user)">login</button>
             </div>
         </div>
     </div>

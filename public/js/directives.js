@@ -2,7 +2,7 @@
 ////////////////// Directives ////////////////// //
 ////////////////////////////////////////////////////
 
-pos.directive('navMenu',function ($location) {
+pos.directive('navMenu',function ($location,Auth) {
   return {
     restrict: 'E',
     scope: {
@@ -16,6 +16,10 @@ pos.directive('navMenu',function ($location) {
         
         url = '/' + url;
         return $location.path().indexOf(url) !== -1;
+      }
+
+      scope.logout=function(){
+        Auth.logout();
       }
 
     }
@@ -78,39 +82,47 @@ pos.directive('addManualItem',function () {
 
 });
 
-pos.directive('login',function () {
+pos.directive('login',function (Auth,$state) {
   return {
     restrict: 'E',
     scope: {
-      addItem: '&'
     },
     templateUrl: 'templates/directives/login.html',
-    link: function (scope, el,http,location,Auth) {
+    link: function (scope, elem,attr) {
 
 
-    
       
-   //   scope.manualItem.price="place gikse";
-  /* console.log(http);
+
+
     
+
       scope.login = function (user) {
         console.log(user);
-        console.log(http)
-        http.post('http://localhost:80/api/user/authenticate',{name:user.name,password:user.password}).then(function(results){
-          console.log(results);
-          if(results.data.success){
+
+
+
+        Auth.login(user).then(function(results){
+        
+
+        
+        if(!results.success){
+           console.log("results: "+results);
+           scope.message=results.message;
+        }else{ 
           
-                
-           location.path('/home')
-             el.find('div').eq(0).modal('hide');
-    
-          }
-         
+            $state.go('home')
+             elem.find('div').eq(0).modal('hide');
+           console.log("results: "+results.success); 
+        }
+
+           
+
         });
+      
           
       
        
-      };*/
+      };
 
     }
   };

@@ -2,51 +2,130 @@
 //////////////////  Routes  ////////////////// //
 //////////////////////////////////////////////////
 
-pos.config(['$routeProvider',
-  function($routeProvider) {
+pos.config(['$stateProvider',
+  function ($stateProvider) {
 
-      $routeProvider.
-        when('/', {
-          templateUrl: 'templates/login.html',
-        }).
-         when('/home', {
-          templateUrl: 'templates/home.html',
-          controller: 'inventoryController',
-        }).
-        when('/inventory', {
-          templateUrl: 'templates/inventory.html',
-          controller: 'inventoryController',
-        }).
-        when('/inventory/create-product', {
-          templateUrl: 'templates/inventory/create-product.html',
-          controller: 'newProductController',
-        }).
-        when('/inventory/product/:productId', {
-          templateUrl: 'templates/inventory/edit-product.html',
-          controller: 'editProductController',
-        }).
-        when('/pos', {
-          templateUrl: 'templates/pos.html',
-          controller: 'posController',
-        }).
-        when('/live-cart', {
-          templateUrl: 'templates/live-cart.html',
-          controller: 'liveCartController',
-        }).
-        when('/transactions', {
-          templateUrl: 'templates/transactions.html',
-          controller: 'transactionsController',
-        }).
-        when('/transaction/:transactionId', {
-          templateUrl: 'templates/view-transaction.html',
-          controller: 'viewTransactionController',
-        }).
-        when('/analytics', {
-          templateUrl: 'templates/analytics.html',
-          controller: 'analyticsController',
-        }).
-        otherwise({
-          redirectTo: '/'
-        });
-        
+    $stateProvider.
+      state('login', {
+        url: '/',
+        resolve:{
+          user:['Auth','$q',function(Auth,$q){
+
+            if(Auth.user){
+              return $q.reject({authorized:true});
+            }
+
+          }]
+        },
+        templateUrl: 'templates/login.html',
+      }).
+      state('home', {
+        url: '/home',
+        templateUrl: 'templates/home.html',
+        controller: 'inventoryController',
+        resolve: {
+          user: ['Auth', '$q', function (Auth, $q) {
+            console.log(Auth.user)
+
+            return Auth.user || $q.reject({ unAuthorized: true });
+          }]
+        }
+      }).
+      state('inventory', {
+        url: '/inventory',
+        templateUrl: 'templates/inventory.html',
+        controller: 'inventoryController',
+        resolve: {
+          user: ['Auth', '$q', function (Auth, $q) {
+            console.log(Auth.user)
+
+            return Auth.user || $q.reject({ unAuthorized: true });
+          }]
+        }
+      }).
+      state('createProduct', {
+        url: '/inventory/create-product',
+        templateUrl: 'templates/inventory/create-product.html',
+        controller: 'newProductController',
+        resolve: {
+          user: ['Auth', '$q', function (Auth, $q) {
+            console.log(Auth.user)
+
+            return Auth.user || $q.reject({ unAuthorized: true });
+          }]
+        }
+      }).
+      state('editProduct', {
+        url: '/inventory/product/:productId',
+        templateUrl: 'templates/inventory/edit-product.html',
+        controller: 'editProductController',
+        resolve: {
+          user: ['Auth', '$q', function (Auth, $q) {
+            console.log(Auth.user)
+
+            return Auth.user || $q.reject({ unAuthorized: true });
+          }]
+        }
+      }).
+      state('pos', {
+        url: '/pos',
+        templateUrl: 'templates/pos.html',
+        controller: 'posController',
+        resolve: {
+          user: ['Auth', '$q', function (Auth, $q) {
+            console.log(Auth.user)
+
+            return Auth.user || $q.reject({ unAuthorized: true });
+          }]
+        }
+      }).
+      state('liveCart', {
+        url: '/live-cart',
+        templateUrl: 'templates/live-cart.html',
+        controller: 'liveCartController',
+        resolve: {
+          user: ['Auth', '$q', function (Auth, $q) {
+            console.log(Auth.user)
+
+            return Auth.user || $q.reject({ unAuthorized: true });
+          }]
+        }
+      }).
+      state('transactions', {
+        url: '/transactions',
+        templateUrl: 'templates/transactions.html',
+        controller: 'transactionsController',
+        resolve: {
+          user: ['Auth', '$q', function (Auth, $q) {
+            console.log(Auth.user)
+
+            return Auth.user || $q.reject({ unAuthorized: true });
+          }]
+        }
+      }).
+      state('viewTransaction', {
+        url: '/transaction/:transactionId',
+        templateUrl: 'templates/view-transaction.html',
+        controller: 'viewTransactionController',
+        resolve: {
+          user: ['Auth', '$q', function (Auth, $q) {
+            console.log(Auth.user)
+
+            return Auth.user || $q.reject({ unAuthorized: true });
+          }]
+        }
+      }).
+      state('analytics', {
+        url: '/analytics',
+        templateUrl: 'templates/analytics.html',
+        controller: 'analyticsController',
+        resolve: {
+          user: ['Auth', '$q', function (Auth, $q) {
+            console.log(Auth.user)
+
+            return Auth.user || $q.reject({ unAuthorized: true });
+          }]
+        }
+      });
+
   }]);

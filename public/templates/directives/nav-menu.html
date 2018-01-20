@@ -1,9 +1,10 @@
 
 
 <ul class="nav-menu">
-	<li><a href="#/inventory" class="lead" ng-class="{ active: isActive('inventory') }">Inventory</a></li>
-	<li><a href="#/pos" class="lead" ng-class="{ active: isActive('pos') }">POS</a></li>
-	<li><a href="#/transactions" class="lead" ng-class="{ active: isActive('transactions') }">Transactions</a></li>
-	<li><a href="#/live-cart" class="lead" ng-class="{ active: isActive('live-cart') }">Live Cart</a></li>
-	<li><a href="#/analytics" class="lead" ng-class="{ active: isActive('analytics') }">Analytics</a></li>
+	<li><a ui-sref="inventory" class="lead" ng-class="{ active: isActive('inventory') }">Inventory</a></li>
+	<li><a ui-sref="pos" class="lead" ng-class="{ active: isActive('pos') }">POS</a></li>
+	<li><a ui-sref="transactions" class="lead" ng-class="{ active: isActive('transactions') }">Transactions</a></li>
+	<li><a ui-sref="liveCart" class="lead" ng-class="{ active: isActive('live-cart') }">Live Cart</a></li>
+	<li><a ui-sref="analytics" class="lead" ng-class="{ active: isActive('analytics') }">Analytics</a></li>
+	<li><a ui-sref="login" ng-click="logout()" class="lead" ng-class="{ active: isActive('analytics') }">Sign Out</a></li>
 </ul>

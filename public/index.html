@@ -20,11 +20,11 @@
 <body ng-controller="body" class="container" ng-class="{ 'not-home': !onHomePage() }">
 
 <h1 class="text-center">
-	<a href="/#/">{{settings.store_name}}  POS</a>
+	<a ui-sref="home">{{settings.store_name}}  POS</a>
 </h1>
 	<nav-menu ng-hide="onHomePage()"></nav-menu>
 
-	<div ng-view></div>
+	<div ui-view ng-cloak></div>
 
 	<script src="/jquery/dist/jquery.min.js"></script>
 	<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -43,6 +43,7 @@
            <script src="/angular-material/angular-material.min.js"></script>
 	  <script src="/angular-sanitize/angular-sanitize.min.js"></script>
 	<script src='/angular-upload/angular-upload.min.js'></script>
+	<script src='/angular-cookies/angular-cookies.min.js'></script>
 	<script src="/odometer/odometer.min.js"></script>
 	<script src="/angular-odometer-js/dist/angular-odometer.min.js"></script>
 
@@ -76,7 +77,6 @@
 	<script src='/js/dc.js' type='text/javascript'></script>
 	<script src='/js/queue.js' type='text/javascript'></script>
 
-	<script src='js/Dashboard.js' type='text/javascript'>
 </body>
 
 </html>

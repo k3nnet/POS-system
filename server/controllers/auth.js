@@ -35,6 +35,11 @@ module.exports = {
 
     },
 
+    logout:function(req,res){
+        
+        res.status(200).send("logged Out");
+    },
+
     login: function (req, res) {
       console.log(req.body.params);
 

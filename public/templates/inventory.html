@@ -1,6 +1,6 @@
 <div class="container">
 
-	<a href="#/inventory/create-product" class="btn btn-success pull-right">
+	<a ui-sref="createProduct" class="btn btn-success pull-right">
 		<i class="glyphicon glyphicon-plus"></i> Add New Item
 	</a>
 	<br/><br/>
@@ -18,19 +18,19 @@
 		<tbody>
 			<tr ng-repeat="product in inventory">
 				<td>
-					<a href="" ng-click="editProduct(product._id)">
+				
 						{{ product.barcode }} 
-					</a>
+				
 				</td>
 				<td>
-					<a href="" ng-click="editProduct(product._id)">
+			
 						{{ product.name }} 
-					</a>
+				
 				</td>
 				<td> {{ product.price | currency:"R "}} </td>
 				<td> {{ product.products_sold }} </td>
 				<td>
-					<a class="btn btn-info" ng-click="editProduct(product._id)">
+					<a class="btn btn-info" ui-sref="editProduct({id:product._id})" ng-click="editProduct(product._id)">
 						<i class="glyphicon glyphicon-pencil"></i>
 					</a>
 				</td>

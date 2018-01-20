@@ -42,6 +42,7 @@ app.get('/', function (req, res) {
 //auth endpoints
 app.post('/auth/register',auth.register);
 app.post('/auth/login',auth.login);
+app.post('/auth/logout',auth.logout);
 
 // Inventroy endpoints
 app.post('/inventory/product',inventory.add);

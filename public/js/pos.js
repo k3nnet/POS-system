@@ -1,9 +1,25 @@
 var pos = angular.module('POS', [
   'ngRoute',
   'ngAnimate',
+  'ui.router',
   'lr.upload',
   'ui.odometer',
+  'ngCookies'
 ]);
+
+pos.run(['$rootScope','$state','$cookieStore','Auth',function($rootScope,$state,$cookieStore,Auth){
+
+    $rootScope.$on('$stateChangeError',function(event,toState,toParams,fromState,fromParams,error){
+        console.log(error)
+        if(error.unAuthorized){
+            $state.go('login');
+        }else if(error.authorized){
+          $state.go('home');
+        }
+    })
+
+    Auth.user=$cookieStore.get('user');
+}]);
 
 
 pos.constant("moment",moment);   
@@ -37,30 +53,12 @@ pos.controller('body', function ($scope, $location, Settings) {
 pos.controller('loginController', function ($scope, $location, $http,Auth) {
 
 
-    $scope.login=function(user){
-
-
-        Auth.login(user).then(function(results){
-          console.log("results: "+results.success);
-
-          if(results.success){
-             $location.path('/home');
-
-          }else{
-            console.log(results.message);
-            $scope.message=results.message;
-
-          }
-
-           
-
-        });
-      }
+  
 })
 
 // Inventory Section
 
-pos.controller('inventoryController', function ($scope, $location, Inventory) {
+pos.controller('inventoryController', function ($scope, $state, Inventory) {
 
   // get and set inventory
   Inventory.getProducts().then(function (products) {
@@ -69,7 +67,7 @@ pos.controller('inventoryController', function ($scope, $location, Inventory) {
 
   // go to edit page
   $scope.editProduct = function (productId) {
-    $location.path('/inventory/product/' + productId);
+    //$state.go('inventory/product/' + productId);
   };
 
 });
@@ -97,11 +95,11 @@ pos.controller('newProductController', function ($scope, $location, $route, Inve
 
 
 
-pos.controller('editProductController', function ($scope, $location, $routeParams, Inventory, upload) {
+pos.controller('editProductController', function ($scope, $location, $stateParams, Inventory, upload) {
 
-  console.log("route parameters:"+JSON.stringify($routeParams))
+  console.log("route parameters:"+JSON.stringify($stateParams))
   // get and set inventory
-  Inventory.getProduct($routeParams.productId).then(function (product) {
+  Inventory.getProduct($stateParams.productId).then(function (product) {
     $scope.product = angular.copy(product[0]);
     console.log("from edit controler"+JSON.stringify(product[0]));
   });
@@ -729,6 +727,7 @@ var productQuantity = dc.barChart("#state-donations");
 
 
     dc.renderAll();
+    $scope.updated=new Date();
 
 };
 })
