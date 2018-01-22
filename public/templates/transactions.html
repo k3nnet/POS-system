@@ -27,7 +27,7 @@
 			<td> {{ transaction.payment | currency:"R" }}</td>
 			<td> {{ getNumberOfProducts(transaction.products) }} </td>
 			<td>
-				<a class="btn btn-info" href="#/transaction/{{ transaction._id }}">
+				<a class="btn btn-info" ui-sref="viewTransaction({id:transaction._id})">
 					<i class="glyphicon glyphicon-new-window"></i>
 				</a>
 			</td>

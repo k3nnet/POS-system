@@ -45,11 +45,14 @@
             <td></td>
             <td>Payment</td>
             <td> {{ transaction.payment | currency:"R" }} </td>
+          
           </tr>
           <tr class="lead">
             <td></td>
             <td>Change</td>
             <td> {{ transaction.payment - transaction.total | currency:"R" }} </td>
+            <td></td>
+            <td>Order No: {{transaction.orderNo}}</td>
           </tr>
         </tbody>
 

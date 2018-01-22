@@ -9,5 +9,6 @@ module.exports=mongoose.model('Transaction', {
     payment:Number,
     date:{
         type:Date
-    }
+    },
+    orderNo:Number
 });

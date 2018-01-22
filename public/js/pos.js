@@ -99,7 +99,7 @@ pos.controller('editProductController', function ($scope, $location, $stateParam
 
   console.log("route parameters:"+JSON.stringify($stateParams))
   // get and set inventory
-  Inventory.getProduct($stateParams.productId).then(function (product) {
+  Inventory.getProduct($stateParams.id).then(function (product) {
     $scope.product = angular.copy(product[0]);
     console.log("from edit controler"+JSON.stringify(product[0]));
   });
@@ -201,11 +201,13 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
 
   $scope.barcodeHandler = function () {
 
-    if ($scope.isValidProduct($scope.barcode)) {
-       $scope.addProductToCart($scope.barcode); 
+    var barcode=$scope.barcode.toUpperCase();
+
+    if ($scope.isValidProduct(barcode)) {
+       $scope.addProductToCart(barcode); 
       }
     else {
-      console.log('invalid barcode: ' + $scope.barcode);
+      console.log('invalid barcode: ' + barcode);
     }
          $scope.barcode = '';
       $scope.$digest();
@@ -218,10 +220,12 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
     // if enter is pressed
     if (e.which === 13) {
 
+      var barcode=$scope.barcode.toUpperCase();
+
       // if the barcode accumulated so far is valid, add product to cart
-      if ($scope.isValidProduct($scope.barcode)) $scope.addProductToCart($scope.barcode);
+      if ($scope.isValidProduct(barcode)) $scope.addProductToCart(barcode);
       else
-        console.log('invalid barcode: ' + $scope.barcode);
+        console.log('invalid barcode: ' + barcode);
       // $scope.barcodeNotFoundError = true;
 
       $scope.barcode = '';
@@ -360,10 +364,15 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
     cart.payment = angular.copy(payment);
     cart.date = new Date();
 
-    //update product
+    Transactions.getAll().then(function(transactions){
 
+      var orderNo=transactions.length;
 
-    // save to database
+      cart.orderNo=orderNo;
+
+      console.log(cart);
+
+          // save to database
     Transactions.add(cart).then(function (res) {
 
       socket.emit('cart-transaction-complete', {});
@@ -374,6 +383,16 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
     });
 
     $scope.refreshInventory();
+
+      
+    })
+
+
+
+    //update product
+
+
+
   };
 
   function genOrderNo(cart){
@@ -401,6 +420,8 @@ pos.controller('transactionsController', function ($scope, $location, Transactio
     $scope.transactions = _.sortBy(transactions, 'date').reverse();
   });
 
+
+
   // get yesterday's date
   var yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
@@ -421,9 +442,10 @@ pos.controller('transactionsController', function ($scope, $location, Transactio
 
 });
 
-pos.controller('viewTransactionController', function ($scope, $routeParams, Transactions) {
+pos.controller('viewTransactionController', function ($scope, $stateParams, Transactions) {
 
-  var transactionId = $routeParams.transactionId;
+console.log($stateParams);
+  var transactionId = $stateParams.id;
 
   Transactions.getOne(transactionId).then(function (transaction) {
     $scope.transaction = angular.copy(transaction);

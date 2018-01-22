@@ -56,7 +56,7 @@ pos.config(['$stateProvider',
         }
       }).
       state('editProduct', {
-        url: '/inventory/product/:productId',
+        url: '/inventory/product/:id',
         templateUrl: 'templates/inventory/edit-product.html',
         controller: 'editProductController',
         resolve: {
@@ -94,17 +94,10 @@ pos.config(['$stateProvider',
       state('transactions', {
         url: '/transactions',
         templateUrl: 'templates/transactions.html',
-        controller: 'transactionsController',
-        resolve: {
-          user: ['Auth', '$q', function (Auth, $q) {
-            console.log(Auth.user)
-
-            return Auth.user || $q.reject({ unAuthorized: true });
-          }]
-        }
+        controller: 'transactionsController'
       }).
       state('viewTransaction', {
-        url: '/transaction/:transactionId',
+        url: '/transaction/:id',
         templateUrl: 'templates/view-transaction.html',
         controller: 'viewTransactionController',
         resolve: {

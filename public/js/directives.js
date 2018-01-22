@@ -2,7 +2,7 @@
 ////////////////// Directives ////////////////// //
 ////////////////////////////////////////////////////
 
-pos.directive('navMenu',function ($location,Auth) {
+pos.directive('navMenu',function ($location,Auth,$state) {
   return {
     restrict: 'E',
     scope: {
@@ -20,6 +20,8 @@ pos.directive('navMenu',function ($location,Auth) {
 
       scope.logout=function(){
         Auth.logout();
+        $state.go('login');
+
       }
 
     }
@@ -50,6 +52,8 @@ pos.directive('productForm',function ($location) {
       };
 
       scope.save = function () {
+
+        scope.product.barcode=scope.product.barcode.toUpperCase();
        
         scope.onSave({ product: scope.product });
       };
