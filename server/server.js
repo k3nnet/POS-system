@@ -5,6 +5,7 @@ io 			= require('socket.io')(server),
 path 		= require('path'),
  mongoose    = require('mongoose'),
 bodyParser 	= require('body-parser'),
+crypto=require('crypto'),
 publicPath 	= '/../public/',
 liveCart
 config=require('./config')

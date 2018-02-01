@@ -52,17 +52,17 @@ pos.service('Inventory', ['$http', function ($http) {
 
 }]);
 
-pos.factory('Auth',['$http','$cookieStore',function($http,$cookieStore){
+pos.factory('Auth', ['$http', '$cookieStore', function ($http, $cookieStore) {
 
-//endpoints
+  //endpoints
 
   var authApiUrl = '/auth/';
 
-var auth={};
+  var auth = {};
 
 
-//login user
-auth.login = function (user) {
+  //login user
+  auth.login = function (user) {
     var url = authApiUrl + 'login';
 
     return $http.post(url, { params: { email: user.name, password: user.password } }).then(function (res) {
@@ -75,8 +75,8 @@ auth.login = function (user) {
   }
 
 
-//logout user
-auth.logout = function () {
+  //logout user
+  auth.logout = function () {
     return $http.post(authApiUrl + 'logout').then(function (response) {
       console.log(response.data)
       auth.user = undefined;
@@ -85,7 +85,7 @@ auth.logout = function () {
 
   }
 
-return auth;
+  return auth;
 
 }]);
 

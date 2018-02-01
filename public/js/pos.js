@@ -7,28 +7,28 @@ var pos = angular.module('POS', [
   'ngCookies'
 ]);
 
-pos.run(['$rootScope','$state','$cookieStore','Auth',function($rootScope,$state,$cookieStore,Auth){
+pos.run(['$rootScope', '$state', '$cookieStore', 'Auth', function ($rootScope, $state, $cookieStore, Auth) {
 
-    $rootScope.$on('$stateChangeError',function(event,toState,toParams,fromState,fromParams,error){
-        console.log(error)
-        if(error.unAuthorized){
-            $state.go('login');
-        }else if(error.authorized){
-          $state.go('home');
-        }
-    })
+  $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+    console.log(error)
+    if (error.unAuthorized) {
+      $state.go('login');
+    } else if (error.authorized) {
+      $state.go('home');
+    }
+  })
 
-    Auth.user=$cookieStore.get('user');
+  Auth.user = $cookieStore.get('user');
 }]);
 
 
-pos.constant("moment",moment);   
+pos.constant("moment", moment);
 
 ///////////////////////////////////////////////////
 ////////////////// Socket.io ////////////////// //
 //////////////////////////////////////////////////
 
-var   serverAddress = 'http://localhost:80';
+var serverAddress = 'http://localhost:80';
 
 var socket = io.connect(serverAddress);
 
@@ -50,10 +50,10 @@ pos.controller('body', function ($scope, $location, Settings) {
 });
 
 
-pos.controller('loginController', function ($scope, $location, $http,Auth) {
+pos.controller('loginController', function ($scope, $location, $http, Auth) {
 
 
-  
+
 })
 
 // Inventory Section
@@ -97,11 +97,11 @@ pos.controller('newProductController', function ($scope, $location, $route, Inve
 
 pos.controller('editProductController', function ($scope, $location, $stateParams, Inventory, upload) {
 
-  console.log("route parameters:"+JSON.stringify($stateParams))
+  console.log("route parameters:" + JSON.stringify($stateParams))
   // get and set inventory
   Inventory.getProduct($stateParams.id).then(function (product) {
     $scope.product = angular.copy(product[0]);
-    console.log("from edit controler"+JSON.stringify(product[0]));
+    console.log("from edit controler" + JSON.stringify(product[0]));
   });
 
   $scope.saveProduct = function (product) {
@@ -201,16 +201,16 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
 
   $scope.barcodeHandler = function () {
 
-    var barcode=$scope.barcode.toUpperCase();
+    var barcode = $scope.barcode.toUpperCase();
 
     if ($scope.isValidProduct(barcode)) {
-       $scope.addProductToCart(barcode); 
-      }
+      $scope.addProductToCart(barcode);
+    }
     else {
       console.log('invalid barcode: ' + barcode);
     }
-         $scope.barcode = '';
-      $scope.$digest();
+    $scope.barcode = '';
+    $scope.$digest();
 
   }
   function barcodeHandler(e) {
@@ -220,7 +220,7 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
     // if enter is pressed
     if (e.which === 13) {
 
-      var barcode=$scope.barcode.toUpperCase();
+      var barcode = $scope.barcode.toUpperCase();
 
       // if the barcode accumulated so far is valid, add product to cart
       if ($scope.isValidProduct(barcode)) $scope.addProductToCart(barcode);
@@ -232,7 +232,7 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
       $scope.$digest();
     }
     else {
-      $scope.barcode = "" ;
+      $scope.barcode = "";
     }
 
   }
@@ -364,27 +364,27 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
     cart.payment = angular.copy(payment);
     cart.date = new Date();
 
-    Transactions.getAll().then(function(transactions){
+    Transactions.getAll().then(function (transactions) {
 
-      var orderNo=transactions.length;
+      var orderNo = transactions.length;
 
-      cart.orderNo=orderNo;
+      cart.orderNo = orderNo;
 
       console.log(cart);
 
-          // save to database
-    Transactions.add(cart).then(function (res) {
+      // save to database
+      Transactions.add(cart).then(function (res) {
 
-      socket.emit('cart-transaction-complete', {});
+        socket.emit('cart-transaction-complete', {});
 
-      // clear cart and start fresh
-      startFreshCart();
+        // clear cart and start fresh
+        startFreshCart();
 
-    });
+      });
 
-    $scope.refreshInventory();
+      $scope.refreshInventory();
 
-      
+
     })
 
 
@@ -395,9 +395,9 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
 
   };
 
-  function genOrderNo(cart){
+  function genOrderNo(cart) {
 
-     
+
   }
 
   $scope.addQuantity = function (product) {
@@ -444,7 +444,7 @@ pos.controller('transactionsController', function ($scope, $location, Transactio
 
 pos.controller('viewTransactionController', function ($scope, $stateParams, Transactions) {
 
-console.log($stateParams);
+  console.log($stateParams);
   var transactionId = $stateParams.id;
 
   Transactions.getOne(transactionId).then(function (transaction) {
@@ -453,305 +453,309 @@ console.log($stateParams);
 
 });
 
-pos.controller('analyticsController',function($scope){
+pos.controller('analyticsController', function ($scope) {
+
+  
+
+    queue()
+      .defer(d3.json, "/transactions/all")
+      .await(makeGraphs);
+
+  function makeGraphs(error, apiData) {
+
+    //Start Transformations
+    var dataSet = apiData;
+
+    var productsData = [];
+    var dayFormat = d3.time.format("%a-%U-%y");
+    var dateFormat = d3.time.format("%d-%b-%Y");
+    dataSet.forEach(function (d) {
+      d.date = new Date(d.date);
+      //    console.log(d);
 
 
-   
-queue()
-    .defer(d3.json, "/transactions/all")
-    .await(makeGraphs);
-
-function makeGraphs(error, apiData) {
-
-	//Start Transformations
-	var dataSet = apiData;
-
-	var productsData=[];
-	var dayFormat = d3.time.format("%a-%U-%y");
-  var dateFormat = d3.time.format("%d-%b-%Y");
-	dataSet.forEach(function (d) {
-		d.date = new Date(d.date);
-   //    console.log(d);
+      //	d.date =dateFormat(d.date);
 
 
-	//	d.date =dateFormat(d.date);
-	
+      var count = 0;
 
-		var count=0;
-	
-		console.log(d.date);
-		d.products.forEach(function(b){
-      b.date=dateFormat(d.date);
-      b.month =dateFormat(d.date).slice(3, 6);
-      b.day= dayFormat(d.date).slice(0,3);
-      b.year=dateFormat(d.date).slice(7, 11);
-      b.week=dayFormat(d.date).slice(4, 6);
+      console.log(d.date);
+      d.products.forEach(function (b) {
+        b.date = dateFormat(d.date);
+        b.month = dateFormat(d.date).slice(3, 6);
+        b.day = dayFormat(d.date).slice(0, 3);
+        b.year = dateFormat(d.date).slice(7, 11);
+        b.week = dayFormat(d.date).slice(4, 6);
 
-      b.price=+b.price;
-      b.total=b.price*b.quantity;
-			productsData.push(b);
-			count++;
-			////console.log("quantity: "+b.quantity+" total: "+d.total);
-			console.log(b);
-		})
-		
-		
-	
-		
-	});
+        b.price = +b.price;
+        b.total = b.price * b.quantity;
+        productsData.push(b);
+        count++;
+        ////console.log("quantity: "+b.quantity+" total: "+d.total);
+        console.log(b);
+      })
 
 
-	//print helper function
+
+
+    });
+
+
+    //print helper function
 
     var print_filter = function (filter) {
-		var f = eval(filter);
-		if (typeof (f.length) != "undefined") { } else { }
-		if (typeof (f.top) != "undefined") { f = f.top(Infinity); } else { }
-		if (typeof (f.dimension) != "undefined") { f = f.dimension(function (d) { return ""; }).top(Infinity); } else { }
-		console.log(filter + "(" + f.length + ") = " + JSON.stringify(f).replace("[", "[\n\t").replace(/}\,/g, "},\n\t").replace("]", "\n]"));
-	}
-	//Create a Crossfilter instance
-	console.log(productsData.length);
+      var f = eval(filter);
+      if (typeof (f.length) != "undefined") { } else { }
+      if (typeof (f.top) != "undefined") { f = f.top(Infinity); } else { }
+      if (typeof (f.dimension) != "undefined") { f = f.dimension(function (d) { return ""; }).top(Infinity); } else { }
+      console.log(filter + "(" + f.length + ") = " + JSON.stringify(f).replace("[", "[\n\t").replace(/}\,/g, "},\n\t").replace("]", "\n]"));
+    }
+    //Create a Crossfilter instance
+    console.log(productsData.length);
 
-	var ndx = crossfilter(dataSet);
-	var mdx=crossfilter(productsData);
-
-
+    var ndx = crossfilter(dataSet);
+    var mdx = crossfilter(productsData);
 
 
-	//Define Dimensions
-
-  var allDim=mdx.dimension(function(d){
-    return d;
-  })
-
-  var dayDim=mdx.dimension(function(d){
-    return d.day;
-  })
-
-  var weekDim=mdx.dimension(function(d){
-    return d.week;
-  })
-
-	var monthDim = mdx.dimension(function (d) {
-    //console.log(d);
-		return d.month;
-	})
-
-  var yearDim=mdx.dimension(function(d){
-    return d.year;
-  })
-	var dateDim = mdx.dimension(function (d) {
-		////console.log(d.total);
-		return d.date;
-	});
-
-  var productNameDim=mdx.dimension(function(d){
-    console.log(d);
-    
-    return d.name;
-  })
-
-  var priceTotalDim=mdx.dimension(function(d){
-    return d.total;
-  })
-
-  var quantityDim=mdx.dimension(function(d){
-    return d.quantity;
-  })
-
-  var barcodeDim=mdx.dimension(function(d){
-    return d.barcode;
-  })
 
 
+    //Define Dimensions
+
+    var allDim = mdx.dimension(function (d) {
+      return d;
+    })
+
+    var dayDim = mdx.dimension(function (d) {
+      return d.day;
+    })
+
+    var weekDim = mdx.dimension(function (d) {
+      return d.week;
+    })
+
+    var monthDim = mdx.dimension(function (d) {
+      //console.log(d);
+      return d.month;
+    })
+
+    var yearDim = mdx.dimension(function (d) {
+      return d.year;
+    })
+    var dateDim = mdx.dimension(function (d) {
+      ////console.log(d.total);
+      return d.date;
+    });
+
+    var productNameDim = mdx.dimension(function (d) {
+      console.log(d);
+
+      return d.name;
+    })
+
+    var priceTotalDim = mdx.dimension(function (d) {
+      return d.total;
+    })
+
+    var quantityDim = mdx.dimension(function (d) {
+      return d.quantity;
+    })
+
+    var barcodeDim = mdx.dimension(function (d) {
+      return d.barcode;
+    })
 
 
 
 
 
-	//Calculate metrics
-	var productsByName = productNameDim.group();
-	var productsByQuantity =quantityDim.group();
-  var productByDate=dateDim.group();
-  var monthGroup=monthDim.group();
-  var productByBarcode=barcodeDim.group()
-  var dayGroup=dayDim.group();
-  var weekGroup=weekDim.group();
-  var dayGroup=dayDim.group();
-  
-
-	
-
-	var all = mdx.groupAll();
-
-	//Calculate Groups
-
-  var netTotal=mdx.groupAll().reduceSum(function(d){
-
-    return d.total;
-  });
-
-  var netQauntity=mdx.groupAll().reduceSum(function(d){
-    return d.quantity;
-  });
 
 
-	var quantityPerCode = barcodeDim.group().reduceSum(function (d) {
-	
-		return d.quantity;
-	});
-
-  
-	var quantityPerProduct = productNameDim.group().reduceSum(function (d) {
-	
-		return d.quantity;
-	});
-
-  var totalPerProduct=productNameDim.group().reduceSum(function(d){
-   //console.log("total: "+d.total);
-    return d.total;
-  })
+    //Calculate metrics
+    var productsByName = productNameDim.group();
+    var productsByQuantity = quantityDim.group();
+    var productByDate = dateDim.group();
+    var monthGroup = monthDim.group();
+    var productByBarcode = barcodeDim.group()
+    var dayGroup = dayDim.group();
+    var weekGroup = weekDim.group();
+    var dayGroup = dayDim.group();
 
 
 
-  var totalPerMonth=monthDim.group().reduceSum(function(d){
-    //d.total=d.price*d.quantity;
-    return d.total;
-  })
 
-  var totalPerDate=dateDim.group().reduceSum(function(d){
-    return d.total;
-  })
+    var all = mdx.groupAll();
 
-    var totalPerDay=dayDim.group().reduceSum(function(d){
-    return d.total;
-  })
+    //Calculate Groups
 
+    var netTotal = mdx.groupAll().reduceSum(function (d) {
 
-   var quantityPerDate=dateDim.group().reduceSum(function(d){
-   // d.total=d.price*d.quantity;
-    return d.quantity;
-  })
+      return d.total;
+    });
 
-  var totalPerDay=dayDim.group().reduceSum(function(d){
-    return d.total;
-  })
-
-var qtyPerMonth=monthDim.group().reduceSum(function(d){
-  
-  return d.quantity;
-})
+    var netQauntity = mdx.groupAll().reduceSum(function (d) {
+      return d.quantity;
+    });
 
 
-  console.log(netTotal.value())
-	print_filter('allDim')
-  
+    var quantityPerCode = barcodeDim.group().reduceSum(function (d) {
+
+      return d.quantity;
+    });
+
+
+    var quantityPerProduct = productNameDim.group().reduceSum(function (d) {
+
+      return d.quantity;
+    });
+
+    var totalPerProduct = productNameDim.group().reduceSum(function (d) {
+      //console.log("total: "+d.total);
+      return d.total;
+    })
 
 
 
-   
-   $scope.revenue=netTotal.value();
-  // $scope.totalTransactions=netQauntity;
-  
-	//Define threshold values for data
-	var minDate = dateDim.bottom(1)[0].date;
-	var maxDate = dateDim.top(1)[0].date;
+    var totalPerMonth = monthDim.group().reduceSum(function (d) {
+      //d.total=d.price*d.quantity;
+      return d.total;
+    })
 
-	console.log(minDate);
-	console.log(maxDate);
+    var totalPerDate = dateDim.group().reduceSum(function (d) {
+      return d.total;
+    })
+
+    var totalPerDay = dayDim.group().reduceSum(function (d) {
+      return d.total;
+    })
+
+
+    var quantityPerDate = dateDim.group().reduceSum(function (d) {
+      // d.total=d.price*d.quantity;
+      return d.quantity;
+    })
+
+    var totalPerDay = dayDim.group().reduceSum(function (d) {
+      return d.total;
+    })
+
+    var qtyPerMonth = monthDim.group().reduceSum(function (d) {
+
+      return d.quantity;
+    })
+
+    var totalPerWeek = weekDim.group().reduceSum(function (d) {
+      return d.total;
+    })
+
+
+    console.log(netTotal.value())
+    print_filter('totalPerWeek')
+
+
+
+
+
+    $scope.revenue = netTotal.value();
+    // $scope.totalTransactions=netQauntity;
+
+    //Define threshold values for data
+    var minDate = dateDim.bottom(1)[0].date;
+    var maxDate = dateDim.top(1)[0].date;
+
+    console.log(minDate);
+    console.log(maxDate);
 
     //Charts
-var productQuantity = dc.barChart("#state-donations");
-	var fundingStatusChart = dc.pieChart("#funding-chart");
-  var resourceTypeChart = dc.rowChart("#resource-chart");
+    var productQuantity = dc.barChart("#state-donations");
+    var fundingStatusChart = dc.pieChart("#funding-chart");
+    var resourceTypeChart = dc.rowChart("#resource-chart");
 
-  	var revenue = dc.numberDisplay("#revenue");
-	var sales = dc.numberDisplay("#totalQty");
-  var totalRevenue=dc.numberDisplay("#totalRevenue")
-  var totalSales=dc.numberDisplay("#totalSales")
-
-  
+    var revenue = dc.numberDisplay("#revenue");
+    var sales = dc.numberDisplay("#totalQty");
+    var totalRevenue = dc.numberDisplay("#totalRevenue")
+    var totalSales = dc.numberDisplay("#totalSales")
 
 
-  sales
-		.formatNumber(d3.format("d"))
-		.valueAccessor(function(d){return d; })
-		.group(netQauntity);
 
-	revenue
-		.formatNumber(d3.format("d"))
-		.valueAccessor(function(d){return d; })
-		.group(netTotal)
+
+    sales
+      .formatNumber(d3.format("d"))
+      .valueAccessor(function (d) { return d; })
+      .group(netQauntity);
+
+    revenue
+      .formatNumber(d3.format("d"))
+      .valueAccessor(function (d) { return d; })
+      .group(netTotal)
 
 
     totalRevenue
-    .formatNumber(d3.format("d"))
-    .valueAccessor(function(d){return d;})
-    .group(netTotal)
+      .formatNumber(d3.format("d"))
+      .valueAccessor(function (d) { return d; })
+      .group(netTotal)
 
     totalSales
-    .formatNumber(d3.format("d"))
-    .valueAccessor(function(d){return d;})
-    .group(netQauntity)
-	
-  
-
-  
- 
-
-     
+      .formatNumber(d3.format("d"))
+      .valueAccessor(function (d) { return d; })
+      .group(netQauntity)
 
 
 
 
-  resourceTypeChart
-        //.width(300)
-        .height(220)
-         .dimension(productNameDim)
-        .group(quantityPerProduct)
-        .elasticX(true)
-        .xAxis().ticks(5);
 
 
-	fundingStatusChart
-		.height(220)
-		//.width(350)
-		.radius(100)
-		.innerRadius(40)
-		.transitionDuration(1000)
-	   .dimension(productNameDim)
+
+
+
+
+
+    resourceTypeChart
+      //.width(300)
+      .height(220)
+      .dimension(productNameDim)
+      .group(quantityPerProduct)
+      .elasticX(true)
+      .xAxis().ticks(5);
+
+
+    fundingStatusChart
+      .height(220)
+      //.width(350)
+      .radius(100)
+      .innerRadius(40)
+      .transitionDuration(1000)
+      .dimension(productNameDim)
       .group(quantityPerProduct)
       .externalLabels(10)
       .legend(dc.legend())
-      
 
-     productQuantity
-		//.width(800)
-        .height(220)
-        .transitionDuration(1000)
-         .dimension(dayDim)
-        .group(totalPerDay,"total")
-        .margins({ top: 10, right: 50, bottom: 30, left: 50 })
-        .centerBar(false)
-        .gap(5)
-        .elasticY(true)
-        .elasticX(true)
-        .x(d3.scale.ordinal().domain(dateDim))
-        .xUnits(dc.units.ordinal)
-        .yAxisLabel("total per Day (R)")
-        .renderHorizontalGridLines(true)
-        .renderVerticalGridLines(true)
-        .ordering(function (d) { return d.date; })
-        .yAxis().tickFormat(d3.format("s"));
+
+    productQuantity
+      //.width(800)
+      .height(220)
+      .transitionDuration(1000)
+      .dimension(weekDim)
+      .group(totalPerWeek, "total per week")
+      .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+      .centerBar(false)
+      .gap(5)
+      .elasticY(true)
+      .elasticX(true)
+      .x(d3.scale.ordinal().domain(weekDim))
+      .xUnits(dc.units.ordinal)
+      .yAxisLabel("total per Day (R)")
+      .renderHorizontalGridLines(true)
+      .renderVerticalGridLines(true)
+      .ordering(function (d) { return d.week; })
+      .yAxis().tickFormat(d3.format("s"));
 
 
 
 
     dc.renderAll();
-    $scope.updated=new Date();
+    $scope.updated = new Date();
 
-};
+  };
 })
 
 pos.controller('liveCartController', function ($scope, Transactions, Settings) {
