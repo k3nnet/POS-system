@@ -37,9 +37,9 @@ pos.config(['$stateProvider',
         controller: 'inventoryController',
         resolve: {
           user: ['Auth', '$q', function (Auth, $q) {
-            console.log(Auth.user)
+            console.log(Auth.user.user.email)
 
-            return Auth.user || $q.reject({ unAuthorized: true });
+            return Auth.user.user.role==="admin" || $q.reject({ unAuthorized: true });
           }]
         }
       }).
@@ -51,7 +51,7 @@ pos.config(['$stateProvider',
           user: ['Auth', '$q', function (Auth, $q) {
             console.log(Auth.user)
 
-            return Auth.user || $q.reject({ unAuthorized: true });
+            return Auth.user.user.role==="admin" || $q.reject({ unAuthorized: true });
           }]
         }
       }).
@@ -63,7 +63,7 @@ pos.config(['$stateProvider',
           user: ['Auth', '$q', function (Auth, $q) {
             console.log(Auth.user)
 
-            return Auth.user || $q.reject({ unAuthorized: true });
+            return Auth.user.user.role==="admin" || $q.reject({ unAuthorized: true });
           }]
         }
       }).
@@ -94,12 +94,31 @@ pos.config(['$stateProvider',
       state('transactions', {
         url: '/transactions',
         templateUrl: 'templates/transactions.html',
-        controller: 'transactionsController'
+        controller: 'transactionsController',
+          resolve: {
+          user: ['Auth', '$q', function (Auth, $q) {
+            console.log(Auth.user)
+
+            return Auth.user.user.role==="admin" || $q.reject({ unAuthorized: true });
+          }]
+        }
       }).
       state('viewTransaction', {
         url: '/transaction/:id',
         templateUrl: 'templates/view-transaction.html',
         controller: 'viewTransactionController',
+        resolve: {
+          user: ['Auth', '$q', function (Auth, $q) {
+            console.log(Auth.user)
+
+            return Auth.user.user.role==="admin" || $q.reject({ unAuthorized: true });
+          }]
+        }
+      }).
+      state('userAccount', {
+        url: '/user/:id',
+        templateUrl: 'templates/directives/account-form.html',
+        controller: 'accountController',
         resolve: {
           user: ['Auth', '$q', function (Auth, $q) {
             console.log(Auth.user)
@@ -116,7 +135,7 @@ pos.config(['$stateProvider',
           user: ['Auth', '$q', function (Auth, $q) {
             console.log(Auth.user)
 
-            return Auth.user || $q.reject({ unAuthorized: true });
+            return Auth.user.user.role==="admin" || $q.reject({ unAuthorized: true });
           }]
         }
       });

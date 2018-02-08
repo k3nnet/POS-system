@@ -1,6 +1,6 @@
 
 var User = require('../models/user');
-var crypto=require('crypto');
+var crypto = require('crypto');
 
 var jwt = require('jwt-simple');
 
@@ -8,12 +8,79 @@ var moment = require('moment');
 module.exports = {
 
 
+
+    update: function (req, res) {
+
+
+        console.log(req.body);
+
+        User.findOne({ _id: req.body._id }, function (err, existingUser) {
+
+            if (existingUser) {
+                console.log(existingUser)
+                if (!(existingUser.password === req.body.password)) {
+
+                    var passwordData = saltHashPassword(req.body.password);
+                    var newUser = {
+                        email: req.body.email,
+                        password: passwordData.passwordHash,
+                        salt: passwordData.salt,
+                        role: req.body.role,
+                        fullname: req.body.fullname
+
+                    }
+
+
+                    console.log("password changed")
+                }
+                else {
+
+                    var newUser = {
+                        email: req.body.email,
+                        password: req.body.password,
+                        salt: req.body.salt,
+                        role: req.body.role,
+                        fullname: req.body.fullname
+
+                    }
+                    console.log("password did not changed but other data did")
+                }
+                //var user = new User(newUser);
+
+
+                User.update({ _id: req.body._id }, { $set: newUser }, { multi: false }).exec(function (err, results) {
+                    console.log(results)
+
+                    if(results.nModified==1){
+                       console.log("changed")
+                       res.send({message:"successful"});
+                    }else{
+                        res.send({message:"unsuccessful"});
+
+                    }
+
+                    
+                });
+
+            } else {
+                return res.status(409).send({ message: "cannot find user" })
+            }
+
+
+
+
+        })
+
+
+    },
+
+
     register: function (req, res) {
 
-        console.log(req.body.email);
-        
+        console.log(req.body);
 
-        
+
+
 
         //check if the user already exist
 
@@ -23,12 +90,15 @@ module.exports = {
                 return res.status(409).send({ message: "email already registerd" })
             }
 
-            var passwordData=saltHashPassword(req.body.password);
+            var passwordData = saltHashPassword(req.body.password);
 
-            var newUser={
-                email:req.body.email,
-                password:passwordData.passwordHash,
-                salt:passwordData.salt
+            var newUser = {
+                email: req.body.email,
+                password: passwordData.passwordHash,
+                salt: passwordData.salt,
+                role: req.body.role,
+                fullname: req.body.fullname
+
             }
             var user = new User(newUser);
 
@@ -37,7 +107,7 @@ module.exports = {
                 if (err) {
                     res.status(500).send({ message: err.message });
                 }
-                res.status(200).send({ token: createToken(result) });
+                res.status(200).send({ token: createToken(result),success:true });
 
             })
 
@@ -47,16 +117,15 @@ module.exports = {
 
     },
 
-    logout:function(req,res){
-        
+    logout: function (req, res) {
+
         res.status(200).send("logged Out");
     },
 
     login: function (req, res) {
-      console.log(req.body.params);
+        console.log(req.body.params);
 
-      saltHashPassword('MYPASSWORD');
-       saltHashPassword('MYPASSWORD');
+
 
         // find the user
         User.findOne({
@@ -69,11 +138,8 @@ module.exports = {
                 res.json({ success: false, message: 'Authentication failed. User not found.' });
             } else if (user) {
 
-                 console.log(user);
-                var passwordData=sha512(req.body.params.password,user.salt);
+                var passwordData = sha512(req.body.params.password, user.salt);
 
-                console.log("userHash= "+user.password);
-                console.log("databapassword= "+passwordData.passwordHash);
 
                 // check if password matches
                 if (user.password != passwordData.passwordHash) {
@@ -92,13 +158,30 @@ module.exports = {
                     res.json({
                         success: true,
                         message: 'Enjoy your token!',
-                        token: token
+                        token: token,
+                        user: user
                     });
                 }
 
             }
 
         });
+    },
+    getById: function (req, res) {
+
+
+        console.log(req.params);
+        if (!req.params.id) {
+            res.status(500).send('ID field is required.')
+        }
+        else {
+            User.find({ _id: req.params.id }).exec(function (err, result) {
+
+                res.send(result);
+
+            });
+        }
+
     }
 }
 
@@ -116,37 +199,37 @@ function createToken(user) {
 
 //generate random string of characters i.e salt
 
-var genRandomString=function(length){
+var genRandomString = function (length) {
 
-	return crypto.randomBytes(Math.ceil(length/2)).toString('hex').slice(0,length);
+    return crypto.randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
 }
 
 
-function sha512(password,salt){
+function sha512(password, salt) {
 
-	var hash=crypto.createHmac('sha512',salt);
-	hash.update(password);
-	var value=hash.digest('hex');
-
-	return{
-		salt:salt,
-		passwordHash:value
-	};
-}
-
-
-
-function saltHashPassword(userpassword){
-
-	var salt=genRandomString(16);
-	var passwordData=sha512(userpassword,salt);
-  // console.log("userpassword="+userpassword);
-//	console.log('passwordHash='+passwordData.passwordHash);
-//	console.log('nsalt='+passwordData.salt);
+    var hash = crypto.createHmac('sha512', salt);
+    hash.update(password);
+    var value = hash.digest('hex');
 
     return {
-        salt:salt,
-        passwordHash:passwordData.passwordHash
+        salt: salt,
+        passwordHash: value
+    };
+}
+
+
+
+function saltHashPassword(userpassword) {
+
+    var salt = genRandomString(16);
+    var passwordData = sha512(userpassword, salt);
+    // console.log("userpassword="+userpassword);
+    //	console.log('passwordHash='+passwordData.passwordHash);
+    //	console.log('nsalt='+passwordData.salt);
+
+    return {
+        salt: salt,
+        passwordHash: passwordData.passwordHash
     }
-	
+
 }

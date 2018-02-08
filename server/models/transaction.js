@@ -10,5 +10,6 @@ module.exports=mongoose.model('Transaction', {
     date:{
         type:Date
     },
-    orderNo:Number
+    orderNo:Number,
+    saleBy:String
 });

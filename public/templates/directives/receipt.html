@@ -10,6 +10,8 @@
             <th> Quantity </th>
             <th> Product </th>
             <th> Price </th>
+            
+            
           </tr>
         </thead>
         <tbody>
@@ -27,6 +29,7 @@
               <br/> 
               <small class="small-text"><em>({{ product.price | currency:"R" }} each)</em></small>
             </td>
+           
           </tr>
         </tbody>
 
@@ -51,8 +54,14 @@
             <td></td>
             <td>Change</td>
             <td> {{ transaction.payment - transaction.total | currency:"R" }} </td>
-            <td></td>
+           <td>
+            </td>
+            <td>{{product.saleBy}}</td>
             <td>Order No: {{transaction.orderNo}}</td>
+             <td></td>
+              <td><button class="btn btn-danger pull-right" ng-click="removeTransaction(transaction)">void
+	<i class="glyphicon glyphicon-trash"></i>
+</button></td>
           </tr>
         </tbody>
 

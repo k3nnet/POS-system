@@ -2,13 +2,16 @@
 ////////////////// Directives ////////////////// //
 ////////////////////////////////////////////////////
 
-pos.directive('navMenu',function ($location,Auth,$state) {
+pos.directive('navMenu',function ($location,Auth,$state,$cookieStore) {
   return {
     restrict: 'E',
     scope: {
     },
     templateUrl: 'templates/directives/nav-menu.html',
     link: function (scope) {
+
+     
+     scope.user=$cookieStore.get('user').user;
 
       scope.isActive = function (url) {
         if (url === 'transactions')
@@ -18,9 +21,15 @@ pos.directive('navMenu',function ($location,Auth,$state) {
         return $location.path().indexOf(url) !== -1;
       }
 
+      scope.account=function(_id){
+        $state.go('userAccount',{id:_id});
+        console.log(_id);
+      }
+
       scope.logout=function(){
+       
         Auth.logout();
-        $state.go('login');
+       
 
       }
 
@@ -183,7 +192,7 @@ pos.directive('checkout', function (Settings) {
 
 });
 
-pos.directive('receipt',function (Settings) {
+pos.directive('receipt',function (Settings,Transactions,$state) {
   return {
     restrict: 'E',
     scope: {
@@ -191,6 +200,16 @@ pos.directive('receipt',function (Settings) {
     },
     templateUrl: 'templates/directives/receipt.html',
     link: function (scope) {
+
+
+      scope.removeTransaction=function(transaction){
+        console.log(transaction)
+
+        Transactions.remove(transaction._id).then(function(result){
+            console.log(result);
+            $state.go('transactions');
+        });
+      }
 
       scope.backupDate = new Date();
       

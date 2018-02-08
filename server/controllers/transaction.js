@@ -123,7 +123,15 @@ module.exports = {
             if (docs)
                 res.send(docs)
         })
-    }
+    },
+     remove:function(req,res){
+
+        Transaction.remove({ _id: req.params.id }, function (err, numRemoved) {
+		if (err) 
+			res.status(500).send(err)
+		else 
+			res.sendStatus(200)
+	})}
 
 
 

@@ -38,7 +38,7 @@ pos.service('Inventory', ['$http', function ($http) {
   };
 
   this.createProduct = function (newProduct) {
-    newProduct.products_sold = '0';
+    
     return $http.post(apiInventoryAddress + '/product', newProduct).then(function (res) {
       return res.data;
     });
@@ -52,7 +52,7 @@ pos.service('Inventory', ['$http', function ($http) {
 
 }]);
 
-pos.factory('Auth', ['$http', '$cookieStore', function ($http, $cookieStore) {
+pos.factory('Auth', ['$http', '$cookieStore','$state', function ($http, $cookieStore,$state) {
 
   //endpoints
 
@@ -74,6 +74,14 @@ pos.factory('Auth', ['$http', '$cookieStore', function ($http, $cookieStore) {
     });
   }
 
+  auth.update=function(user){
+     return $http.put(authApiUrl + 'update', user).then(function (res) {
+       console.log(res.data);
+       
+      return res.data;
+    });
+  }
+
 
   //logout user
   auth.logout = function () {
@@ -81,8 +89,28 @@ pos.factory('Auth', ['$http', '$cookieStore', function ($http, $cookieStore) {
       console.log(response.data)
       auth.user = undefined;
       $cookieStore.remove('user');
+      $state.go('login');
     })
 
+  }
+
+  auth.getUser=function(id){
+    
+   return $http.get(authApiUrl+'user/'+id).then(function (res) {
+      return res.data;
+    });
+
+
+  }
+
+  auth.register=function(user){
+
+     return $http.post(authApiUrl + 'register',user).then(function (response) {
+      console.log(response.data)
+      return response.data;
+    
+    })
+    
   }
 
   return auth;
@@ -134,6 +162,15 @@ pos.service('Transactions', ['$http', function ($http, Inventory) {
       return res.data;
     });
   };
+
+  this.remove=function(transactionId){
+     var url = transactionApiUrl + transactionId;
+
+    return $http.delete(url).then(function (res) {
+      return res.data;
+    });
+
+  }
 
 }]);
 

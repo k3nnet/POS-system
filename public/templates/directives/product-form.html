@@ -40,6 +40,21 @@
 	  </div>
 	</div>
 
+		<div class="form-group" ng-class="{ 'has-error': newProductForm.products_at_hand.$error.required }">
+	  <label class="col-md-4 control-label" for="products_at_hand">Quantity</label>  
+	  <div class="col-md-4">
+	  	<input 
+	  		name="products_at_hand" 
+	  		placeholder="Number of items" 
+	  		class="form-control"
+	  		type="number"
+	  		step="any"
+	  		min="0"
+	  		ng-model="product.products_at_hand" 
+	  		required>
+	  </div>
+	</div>
+
 
 
 

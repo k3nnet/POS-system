@@ -1,3 +1,4 @@
+	<nav-menu ng-hide="onHomePage()"></nav-menu>
 <div class="container">
 
 	<a ui-sref="createProduct" class="btn btn-success pull-right">
@@ -11,7 +12,7 @@
 				<th>Barcode</th>
 				<th>Name</th>
 				<th>Price</th>
-				<th>Products sold</th>
+				<th>Products at hand</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -28,7 +29,7 @@
 				
 				</td>
 				<td> {{ product.price | currency:"R "}} </td>
-				<td> {{ product.products_sold }} </td>
+				<td> {{ product.products_at_hand }} </td>
 				<td>
 					<a class="btn btn-info" ui-sref="editProduct({id:product._id})" ng-click="editProduct(product._id)">
 						<i class="glyphicon glyphicon-pencil"></i>

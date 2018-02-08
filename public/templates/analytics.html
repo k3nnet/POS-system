@@ -1,3 +1,4 @@
+<nav-menu ng-hide="onHomePage()"></nav-menu>
 <div class="container-fluid">
     <div class="container-fluid">
 
@@ -6,8 +7,8 @@
 
             <div class="col-sm-3 panel panel-default">
                 <div class="panel-header">Revenue</div>
-                <div class="panel-body text-primary">
-                    <span> R57800</span>
+                <div id="totalRevenue" class="panel-body text-primary">
+                   R
                 </div>
             </div>
             <div class="col-sm-3 panel panel-default">
@@ -35,6 +36,24 @@
                     </div>
                     <div class="content">
                         <div id="resource-chart" class="ct-chart"></div>
+
+                        <div class="footer">
+
+                            <div class="stats">
+                                <i class="fa fa-check"></i> Updated {{updated}} minutes ago
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="false" class="col-md-6">
+                <div class="card ">
+                    <div class="header">
+                        <h4 class="title">2018 Sales</h4>
+                        <p class="category">All products</p>
+                    </div>
+                    <div class="content">
+                        <div class="6u chart-wrapper"  id="date-chart"></div>
 
                         <div class="footer">
 
@@ -83,13 +102,12 @@
                             <div id="state-donations" class="col-sm-8 ct-chart"></div>
                             <div class="col-sm-4 text-center my-auto">
                                 <div id="totalQty" class="h4 mb-0 text-primary"></div>
-                                <div class="small text-muted">SALES PER DAY</div>
+                                <div class="small text-muted">SALES</div>
                                 <hr>
                                 <div id="revenue" class="h4 mb-0 text-warning">R</div>
-                                <div class="small text-muted">REVENUE PER WEEK</div>
+                                <div class="small text-muted">total</div>
                                 <hr>
-                                <div class="h4 mb-0 text-success">R16,219</div>
-                                <div class="small text-muted">REVENUE PER MONTH</div>
+                              
                             </div>
                         </div>
                         <div class="footer">

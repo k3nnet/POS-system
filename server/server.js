@@ -43,7 +43,9 @@ app.get('/', function (req, res) {
 //auth endpoints
 app.post('/auth/register',auth.register);
 app.post('/auth/login',auth.login);
+app.get('/auth/user/:id',auth.getById);
 app.post('/auth/logout',auth.logout);
+app.put('/auth/update',auth.update);
 
 // Inventroy endpoints
 app.post('/inventory/product',inventory.add);
@@ -60,6 +62,8 @@ app.get('/transactions/day-total',transaction.dayTotal);
 app.get('/transactions/by-date',transaction.byDate);
 app.post('/transactions/new',transaction.newTransaction);
 app.get('/transactions/:transactionId',transaction.getById);
+app.delete('/transactions/:id',transaction.remove)
+
 
 
 

@@ -47,11 +47,74 @@ pos.controller('body', function ($scope, $location, Settings) {
     $scope.settings = settings;
   });
 
+
 });
 
 
-pos.controller('loginController', function ($scope, $location, $http, Auth) {
+pos.controller('accountController', function ($scope, $stateParams,$cookieStore,Auth) {
 
+console.log($stateParams);
+
+$scope.register=false;
+
+Auth.getUser($stateParams.id).then(function(result){
+  console.log(result[0]);
+  $scope.buttonText="Update"
+  var user=$scope.user=result[0];
+  $scope.newUser=user;
+
+  $scope.error={};
+
+
+});
+
+
+$scope.add=function(){
+  $scope.newUser={};
+  $scope.register=true;
+  $scope.buttonText="ADD NEW USER"
+  $scope.success="";
+}
+
+$scope.registerUser=function(user){
+console.log(user);
+  Auth.register(user).then(function(result){
+
+    console.log(result);
+    if(result.success){
+      $scope.success=true;
+      $scope.newUser={};
+      $scope.register=false;
+    }
+  })
+
+}
+
+
+
+
+$scope.update=function(user){
+  
+  console.log("update user")
+  console.log(user);
+  Auth.update(user).then(function(result){
+    
+    console.log(result);
+    if(result.message==="successful"){
+      $scope.success=true;
+      $scope.message=result.message;
+
+    }
+    else if(result.message==="unsuccessful"){
+      console.log(result)
+      $scope.success=false;
+      $scope.error.message=result.message;
+    }
+
+    
+
+  });
+}
 
 
 })
@@ -144,7 +207,7 @@ pos.controller('editProductController', function ($scope, $location, $stateParam
 });
 
 // POS Section
-pos.controller('posController', function ($scope, $location, Inventory, Transactions) {
+pos.controller('posController', function ($scope, $location, Inventory, Transactions,$cookieStore) {
 
   $scope.scan = false;
   $scope.scanIcon = "glyphicon glyphicon-plus";
@@ -364,11 +427,15 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
     cart.payment = angular.copy(payment);
     cart.date = new Date();
 
+    var user=$cookieStore.get('user').user;
+    console.log('user');
+
     Transactions.getAll().then(function (transactions) {
 
       var orderNo = transactions.length;
 
       cart.orderNo = orderNo;
+      cart.saleBy=user.fullname;
 
       console.log(cart);
 
@@ -455,11 +522,11 @@ pos.controller('viewTransactionController', function ($scope, $stateParams, Tran
 
 pos.controller('analyticsController', function ($scope) {
 
-  
 
-    queue()
-      .defer(d3.json, "/transactions/all")
-      .await(makeGraphs);
+
+  queue()
+    .defer(d3.json, "/transactions/all")
+    .await(makeGraphs);
 
   function makeGraphs(error, apiData) {
 
@@ -571,14 +638,14 @@ pos.controller('analyticsController', function ($scope) {
 
 
     //Calculate metrics
-    var productsByName = productNameDim.group();
-    var productsByQuantity = quantityDim.group();
-    var productByDate = dateDim.group();
-    var monthGroup = monthDim.group();
-    var productByBarcode = barcodeDim.group()
-    var dayGroup = dayDim.group();
-    var weekGroup = weekDim.group();
-    var dayGroup = dayDim.group();
+    var byName = productNameDim.group();
+    var byQuantity = quantityDim.group();
+    var byDate = dateDim.group();
+    var byMonth= monthDim.group();
+    var byBarcode = barcodeDim.group()
+    var byDay = dayDim.group();
+    var byWeek= weekDim.group();
+   
 
 
 
@@ -591,6 +658,7 @@ pos.controller('analyticsController', function ($scope) {
 
       return d.total;
     });
+
 
     var netQauntity = mdx.groupAll().reduceSum(function (d) {
       return d.quantity;
@@ -644,19 +712,19 @@ pos.controller('analyticsController', function ($scope) {
     })
 
     var totalPerWeek = weekDim.group().reduceSum(function (d) {
+
       return d.total;
     })
 
 
-    console.log(netTotal.value())
-    print_filter('totalPerWeek')
+
+    print_filter('totalPerMonth')
 
 
 
 
 
-    $scope.revenue = netTotal.value();
-    // $scope.totalTransactions=netQauntity;
+
 
     //Define threshold values for data
     var minDate = dateDim.bottom(1)[0].date;
@@ -666,14 +734,15 @@ pos.controller('analyticsController', function ($scope) {
     console.log(maxDate);
 
     //Charts
+    var dateChart = dc.lineChart("#date-chart");
     var productQuantity = dc.barChart("#state-donations");
     var fundingStatusChart = dc.pieChart("#funding-chart");
     var resourceTypeChart = dc.rowChart("#resource-chart");
 
     var revenue = dc.numberDisplay("#revenue");
     var sales = dc.numberDisplay("#totalQty");
-    var totalRevenue = dc.numberDisplay("#totalRevenue")
-    var totalSales = dc.numberDisplay("#totalSales")
+    var totalRevenue = dc.numberDisplay("#totalRevenue");
+    var totalSales = dc.numberDisplay("#totalSales");
 
 
 
@@ -684,15 +753,17 @@ pos.controller('analyticsController', function ($scope) {
       .group(netQauntity);
 
     revenue
-      .formatNumber(d3.format("d"))
+     .formatNumber(d3.format("d"))
       .valueAccessor(function (d) { return d; })
       .group(netTotal)
+      .formatNumber(d3.format(".3s"));
 
 
     totalRevenue
       .formatNumber(d3.format("d"))
       .valueAccessor(function (d) { return d; })
       .group(netTotal)
+      .formatNumber(d3.format(".3s"));
 
     totalSales
       .formatNumber(d3.format("d"))
@@ -704,6 +775,20 @@ pos.controller('analyticsController', function ($scope) {
 
 
 
+    dateChart
+      //.width(600)
+      .height(220)
+      .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+      .dimension(dayDim)
+      .group(totalPerDay)
+      .renderArea(true)
+      .transitionDuration(500)
+      .x(d3.time.scale().domain([minDate, maxDate]))
+      .elasticY(true)
+      .renderHorizontalGridLines(true)
+      .renderVerticalGridLines(true)
+      .xAxisLabel("Year")
+      .yAxis().ticks(6);
 
 
 
@@ -734,19 +819,19 @@ pos.controller('analyticsController', function ($scope) {
       //.width(800)
       .height(220)
       .transitionDuration(1000)
-      .dimension(weekDim)
-      .group(totalPerWeek, "total per week")
+      .dimension(dayDim)
+      .group(totalPerDay, "total per Day")
       .margins({ top: 10, right: 50, bottom: 30, left: 50 })
       .centerBar(false)
       .gap(5)
       .elasticY(true)
       .elasticX(true)
-      .x(d3.scale.ordinal().domain(weekDim))
+      .x(d3.scale.ordinal().domain(dayDim))
       .xUnits(dc.units.ordinal)
       .yAxisLabel("total per Day (R)")
       .renderHorizontalGridLines(true)
       .renderVerticalGridLines(true)
-      .ordering(function (d) { return d.week; })
+      .ordering(function (d) { return d.day; })
       .yAxis().tickFormat(d3.format("s"));
 
 

@@ -1,10 +1,34 @@
+<nav class="navbar navbar-default">
 
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationBar">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		    <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" ui-sref="home">{{settings.store_name}} </a>
+	</div>
+	<div class="collapse navbar-collapse" id="navigationBar">
+		<ul class="nav navbar-nav">
+			<li><a ui-sref="inventory" ng-hide="!(user.role==='admin')" class="lead" ng-class="{ active: isActive('inventory') }">Inventory</a></li>
+			<li><a ui-sref="pos"  class="lead" ng-class="{ active: isActive('pos') }">POS</a></li>
+			<li><a ui-sref="transactions" ng-hide="!(user.role==='admin')"  class="lead" ng-class="{ active: isActive('transactions') }">Transactions</a></li>
+			<li><a ui-sref="liveCart" class="lead" ng-class="{ active: isActive('live-cart') }">Live Cart</a></li>
+			<li><a ui-sref="analytics" ng-hide="!(user.role==='admin')"  class="lead" ng-class="{ active: isActive('analytics') }">Analytics</a></li>
+			
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" >Account<span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a ng-click="account(user._id)" >User profile</a></li>
+					<li><a ui-sref="login" ng-click="logout()">Sign Out</a></li>
+						<li><a>{{user.role}}</a></li>
+				</ul>
 
-<ul class="nav-menu">
-	<li><a ui-sref="inventory" class="lead" ng-class="{ active: isActive('inventory') }">Inventory</a></li>
-	<li><a ui-sref="pos" class="lead" ng-class="{ active: isActive('pos') }">POS</a></li>
-	<li><a ui-sref="transactions" class="lead" ng-class="{ active: isActive('transactions') }">Transactions</a></li>
-	<li><a ui-sref="liveCart" class="lead" ng-class="{ active: isActive('live-cart') }">Live Cart</a></li>
-	<li><a ui-sref="analytics" class="lead" ng-class="{ active: isActive('analytics') }">Analytics</a></li>
-	<li><a ui-sref="login" ng-click="logout()" class="lead" ng-class="{ active: isActive('analytics') }">Sign Out</a></li>
-</ul>
+			</li>
+			
+		</ul>
+	</div>
+
+</nav>

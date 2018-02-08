@@ -61,16 +61,16 @@ module.exports = {
             
            
 			// catch manually added items (don't exist in inventory)
-			if (!product || !product.products_sold) {
+			if (!product || !product.products_at_hand) {
                 console.log("here")
 				callback();
 			}
 
 			else {
                 console.log("here herse")
-				var updatedQuantity = parseInt(product.products_sold) + parseInt(transactionProduct.quantity)
+				var updatedQuantity = parseInt(product.products_at_hand) - parseInt(transactionProduct.quantity)
                  console.log("updated  quantity"+updatedQuantity);
-				  Inventory.update({ _id: product._id }, { $set: { products_sold: updatedQuantity } }).exec(function(err,results){
+				  Inventory.update({ _id: product._id }, { $set: { products_at_hand: updatedQuantity } }).exec(function(err,results){
        
           });
 			}
