@@ -24,7 +24,7 @@ module.exports = {
         transaction.save(transaction, function (err, result) {
             if (!err) {
                 res.sendStatus(200)
-                console.log("new transaction: " + transaction.products);
+                console.log(transaction.products);
                 Inventory.decrementInventory(transaction.products)
             }
 
@@ -57,7 +57,7 @@ module.exports = {
     },//Get total sales for the current day
     dayTotal: function (req, res) {
         // if date is provided
-      //  console.log(req.query.date);
+        //  console.log(req.query.date);
         if (req.query.date) {
             startDate = new Date(req.query.date)
             startDate.setHours(0, 0, 0, 0)
@@ -75,8 +75,8 @@ module.exports = {
             var endDate = new Date()
             endDate.setHours(23, 59, 59, 999)
         }
-        console.log("start: "+startDate.toUTCString());
-         console.log("end: "+endDate.toUTCString());
+        console.log("start: " + startDate.toUTCString());
+        console.log("end: " + endDate.toUTCString());
 
 
         Transaction.find({ date: { $gte: startDate.toJSON(), $lte: endDate.toJSON() } }, function (err, docs) {
@@ -85,14 +85,14 @@ module.exports = {
                 date: startDate
             }
 
-           // console.log("docs:" + docs);
+            // console.log("docs:" + docs);
 
             if (docs) {
 
                 var total = docs.reduce(function (p, c) {
                     return p + c.total
                 }, 0.00)
-                console.log("Total: "+total);
+                console.log("Total: " + total);
 
                 result.total = parseFloat(parseFloat(total).toFixed(2))
 
@@ -124,14 +124,27 @@ module.exports = {
                 res.send(docs)
         })
     },
-     remove:function(req,res){
+    remove: function (req, res) {
 
-        Transaction.remove({ _id: req.params.id }, function (err, numRemoved) {
-		if (err) 
-			res.status(500).send(err)
-		else 
-			res.sendStatus(200)
-	})}
+        Transaction.find({ _id: req.params.id }, function (err, doc) {
+            if (doc) {
+
+                var products = doc[0].products;
+                Transaction.remove({ _id: req.params.id }, function (err, numRemoved) {
+                    if (err){
+                        res.status(500).send(err)}
+                    else{
+                        Inventory.incrementInventory(products);
+                        res.sendStatus(200)
+                    }
+                })
+            }
+        })
+
+
+
+
+    }
 
 
 

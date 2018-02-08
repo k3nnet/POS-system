@@ -137,6 +137,7 @@ pos.directive('login',function (Auth,$state) {
        
       };
 
+     
     }
   };
 
@@ -199,17 +200,40 @@ pos.directive('receipt',function (Settings,Transactions,$state) {
       transaction: '='
     },
     templateUrl: 'templates/directives/receipt.html',
-    link: function (scope) {
+    link: function (scope,el) {
 
 
-      scope.removeTransaction=function(transaction){
-        console.log(transaction)
 
-        Transactions.remove(transaction._id).then(function(result){
+       scope.validate=function(user ){
+         Transactions.validate(user).then(function(result){
+           console.log(result);
+           var transaction=scope.transaction;
+           if(result.success){
+              Transactions.remove(transaction._id).then(function(result){
             console.log(result);
+           this.closeModal();
             $state.go('transactions');
-        });
+             });
+             
+           }
+           else{
+             scope.message="Sorry! couldn't authorise you.please call your senior for assistance"
+
+           }
+         });
+
+
+          
       }
+
+        closeModal = function () {
+        el.find('div').eq(0).modal('hide');
+      
+      };
+
+
+
+     
 
       scope.backupDate = new Date();
       

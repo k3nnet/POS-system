@@ -182,6 +182,51 @@ module.exports = {
             });
         }
 
+    },
+     validate: function (req, res) {
+
+
+     User.findOne({
+            email: req.body.params.email
+        }, function (err, user) {
+
+            if (err) throw err;
+
+            if (!user) {
+                res.json({ success: false, message: 'Authentication failed. User not found.' });
+            } else if (user) {
+
+                var passwordData = sha512(req.body.params.password, user.salt);
+
+
+                // check if password matches
+                if (user.password != passwordData.passwordHash) {
+                    res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+                } else {
+
+                    // if user is found and password is right
+                    // check users role
+
+                    if(user.role==="admin"){
+                        res.json({
+                        success: true
+                    });
+                    }
+                    else{
+                         res.json({
+                        success: false
+                    });
+                    }
+                
+
+                   
+                   
+                }
+
+            }
+
+        });
+
     }
 }
 

@@ -163,6 +163,19 @@ pos.service('Transactions', ['$http', function ($http, Inventory) {
     });
   };
 
+  this.validate=function(user){
+     
+
+    return $http.post('/auth/validate', { params: { email: user.username, password: user.password } }).then(function (res) {
+      console.log(res);
+   
+
+      return res.data;
+    });
+
+
+  }
+
   this.remove=function(transactionId){
      var url = transactionApiUrl + transactionId;
 

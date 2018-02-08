@@ -70,14 +70,42 @@ module.exports = {
                 console.log("here herse")
 				var updatedQuantity = parseInt(product.products_at_hand) - parseInt(transactionProduct.quantity)
                  console.log("updated  quantity"+updatedQuantity);
-				  Inventory.update({ _id: product._id }, { $set: { products_at_hand: updatedQuantity } }).exec(function(err,results){
-       
-          });
+				  Inventory.update({ _id: product._id }, { $set: { products_at_hand: updatedQuantity } },{},callback);
 			}
 
 		});
 
 	});
+    },
+    incrementInventory:function(products){
+      	async.eachSeries(products, function (transactionProduct, callback) {
+
+                
+		
+		Inventory.find({_id: transactionProduct._id }).exec(function(err, results) {
+			
+            product=results[0];
+            console.log("incrementInventory"+JSON.stringify(product));
+            console.log(product);
+            
+           
+			// catch manually added items (don't exist in inventory)
+			if (!product || !product.products_at_hand) {
+                console.log("here")
+				callback();
+			}
+
+			else {
+                console.log("void")
+				var updatedQuantity = parseInt(product.products_at_hand) + parseInt(transactionProduct.quantity)
+                 console.log("updated  quantity"+updatedQuantity);
+				  Inventory.update({ _id: product._id }, { $set: { products_at_hand: updatedQuantity } },{},callback);
+			}
+
+		});
+
+	});
+
     }
 
 

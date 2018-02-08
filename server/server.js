@@ -46,6 +46,7 @@ app.post('/auth/login',auth.login);
 app.get('/auth/user/:id',auth.getById);
 app.post('/auth/logout',auth.logout);
 app.put('/auth/update',auth.update);
+app.post('/auth/validate',auth.validate)
 
 // Inventroy endpoints
 app.post('/inventory/product',inventory.add);
