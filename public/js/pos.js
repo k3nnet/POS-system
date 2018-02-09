@@ -349,7 +349,7 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
     console.log(product)
 
     if (product.food) product.tax_percent = 0;
-    else product.tax_percent = .08;
+    else product.tax_percent = 0;
 
     delete product.quantity_on_hand;
     delete product.food;

@@ -122,9 +122,9 @@ pos.directive('login',function (Auth,$state) {
            console.log("results: "+results);
            scope.message=results.message;
         }else{ 
-          
+           elem.find('div').eq(0).modal('hide');
             $state.go('home')
-             elem.find('div').eq(0).modal('hide');
+            
            console.log("results: "+results.success); 
         }
 
@@ -217,7 +217,7 @@ pos.directive('receipt',function (Settings,Transactions,$state) {
              
            }
            else{
-             scope.message="Sorry! couldn't authorise you.please call your senior for assistance"
+             scope.message="Sorry!we couldn't authorize you.please call your senior for assistance"
 
            }
          });
