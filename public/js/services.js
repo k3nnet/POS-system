@@ -52,6 +52,35 @@ pos.service('Inventory', ['$http', function ($http) {
 
 }]);
 
+pos.factory('ProgressDialog', ['$mdDialog', function ($mdDialog) {
+
+    return {
+        show: show,
+        hide: hide
+    }
+
+    function show() {
+
+        $mdDialog.show({
+            template: '<md-dialog id="plz_wait" style="box-shadow:none">' +
+            '<md-dialog-content layout="row" layout-margin layout-padding layout-align="center center" aria-label="wait">' +
+            '<md-progress-circular md-mode="indeterminate" md-diameter="50"></md-progress-circular>' +
+            'Loading...' +
+            '</md-dialog-content>' +
+            '</md-dialog>',
+            parent: angular.element(document.body),
+            clickOutsideToClose: false,
+            fullscreen: false,
+            escapeToClose: false
+        });
+    }
+
+    function hide() {
+        $mdDialog.cancel()
+    }
+
+}]);
+
 pos.factory('Auth', ['$http', '$cookieStore','$state', function ($http, $cookieStore,$state) {
 
   //endpoints
@@ -68,8 +97,14 @@ pos.factory('Auth', ['$http', '$cookieStore','$state', function ($http, $cookieS
     return $http.post(url, { params: { email: user.name, password: user.password } }).then(function (res) {
       console.log(res);
       auth.user = res.data
-      $cookieStore.put('user', auth.user);
 
+      if(auth.user.success){
+        $cookieStore.put('user', auth.user);
+
+    
+
+      }
+      
       return auth.user;
     });
   }

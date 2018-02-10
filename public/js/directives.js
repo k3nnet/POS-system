@@ -122,15 +122,21 @@ pos.directive('login',function (Auth,$state) {
            console.log("results: "+results);
            scope.message=results.message;
         }else{ 
-           elem.find('div').eq(0).modal('hide');
-            $state.go('home')
-            
+          
+            this.closeModal();
            console.log("results: "+results.success); 
+            $state.go('home');
+           
         }
 
            
 
         });
+
+
+       closeModal= function(){
+                  elem.find('div').eq(0).modal('hide');
+        }
       
           
       

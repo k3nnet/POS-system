@@ -1,6 +1,8 @@
 
-
+  <div>
   <button type="button" style="font-size:100px;"  data-toggle="modal" data-target="#myModal" class="w3-btn  w3-teal w3-padding w3-display-middle" >Login</button>
+   <h3 class="w3-text text-center w3-red">{{message}}</h3>
+  </div>
 <!-- Modal -->
 
 
@@ -34,7 +36,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="addManualItemForm.$valid && login(user)">login</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addManualItemForm.$valid && login(user)">login</button>
             </div>
         </div>
     </div>

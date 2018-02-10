@@ -1,6 +1,6 @@
 var express = require('express'),
 app 		= require('express')(),
-server 		= app.listen(80),
+server 		= app.listen(process.env.PORT || 80),
 io 			= require('socket.io')(server),
 path 		= require('path'),
  mongoose    = require('mongoose'),

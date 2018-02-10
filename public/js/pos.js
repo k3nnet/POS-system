@@ -82,9 +82,11 @@ console.log(user);
 
     console.log(result);
     if(result.success){
-      $scope.success=true;
+      $scope.message="user registration successful";
       $scope.newUser={};
       $scope.register=false;
+    }else{
+      $scope.err="something went wrong.please try again";
     }
   })
 
