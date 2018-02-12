@@ -39,6 +39,7 @@ module.exports = {
 
     },//remove product from inventoty
     remove:function(req,res){
+        console.log(req.body);
 
         Inventory.remove({ _id: req.params.productId }, function (err, numRemoved) {
 		if (err) 
