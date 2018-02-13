@@ -1,0 +1,28 @@
+  
+                    <div  class="w3-group">
+                        <label class="w3-label">username</label>
+                        <input class="w3-input w3-border" type="text" name="username" placeholder="please enter username" ng-model="newUser.email"></input>
+
+                    </div>
+                    <div  class="w3-group">
+                        <label class="w3-label">password</label>
+                        <input class="w3-input w3-border" type="password" name="username" placeholder="please enter password" ng-model="newUser.password"></input>
+
+                    </div>
+                    <div  class="w3-group">
+                        <label class="w3-label">name</label>
+                        <input ng-disabled="user.role==='staff'" class="w3-input w3-border"  name="name" type="text" placeholder="please enter full name" required ng-model="newUser.fullname">
+                        
+                    </div>
+                    <div  class="w3-group">
+                        <label class="w3-label">Role</label>
+                        <select ng-disabled="user.role==='staff'" class="w3-select w3-border"  placeholder="{{user.role}}" ng-model="newUser.role">
+                            <option>staff</option>
+                            <option>admin</option>
+                        </select>
+                       
+                    </div>
+                   
+                     
+                    <div class="clearfix"></div>
+                   

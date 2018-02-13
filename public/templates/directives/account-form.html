@@ -1,0 +1,27 @@
+<nav-menu ng-hide="onHomePage()"></nav-menu>
+<div class="content">
+    <a ng-show="user.role=='admin'" ng-click="add()" class="btn btn-success pull-right">
+        <i class="glyphicon glyphicon-plus"></i> Add New User
+    </a>
+    <br/><br/>
+    <div  class="w3-panel w3-red w3-round">{{err}}</div>
+    <div  class="w3-panel w3-green w3-round">{{message}}</div>
+    <form ng-hide="register" name="registerForm" ng-submit="update(newUser)" novalidate>
+
+
+        <div ng-include="'/templates/forms/_user-form.html'"></div>
+
+        <button type="submit" class="btn btn-info btn-fill pull-right">{{buttonText}}</button>
+
+    </form>
+    <form ng-show="register" name="registerForm" ng-submit="registerUser(newUser)" novalidate>
+
+
+        <div ng-include="'/templates/forms/_user-form.html'"></div>
+
+
+        <button type="submit" class="btn btn-info btn-fill pull-right">{{buttonText}}</button>
+    </form>
+
+
+</div>
