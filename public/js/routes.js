@@ -39,7 +39,7 @@ pos.config(['$stateProvider',
           user: ['Auth', '$q', function (Auth, $q) {
             console.log(Auth.user.user.email)
 
-            return Auth.user.user.role==="admin" || $q.reject({ unAuthorized: true });
+            return Auth.user.user || $q.reject({ unAuthorized: true });
           }]
         }
       }).
@@ -51,7 +51,7 @@ pos.config(['$stateProvider',
           user: ['Auth', '$q', function (Auth, $q) {
             console.log(Auth.user)
 
-            return Auth.user.user.role==="admin" || $q.reject({ unAuthorized: true });
+            return Auth.user.user || $q.reject({ unAuthorized: true });
           }]
         }
       }).
