@@ -1,7 +1,7 @@
 {
-  "name": "Mricho's Pro Technologies",
+  "name": "pos",
   "version": "0.0.0",
-  "description": "A simple point of sale",
+  "description": "point of sale",
   "main": "server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
