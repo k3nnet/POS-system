@@ -12,12 +12,12 @@ module.exports = {
     update: function (req, res) {
 
 
-        console.log(req.body);
+  
 
         User.findOne({ _id: req.body._id }, function (err, existingUser) {
 
             if (existingUser) {
-                console.log(existingUser)
+             
                 if (!(existingUser.password === req.body.password)) {
 
                     var passwordData = saltHashPassword(req.body.password);
@@ -49,7 +49,7 @@ module.exports = {
 
 
                 User.update({ _id: req.body._id }, { $set: newUser }, { multi: false }).exec(function (err, results) {
-                    console.log(results)
+             
 
                     if(results.nModified==1){
                        console.log("changed")
@@ -77,9 +77,7 @@ module.exports = {
 
     register: function (req, res) {
 
-        console.log(req.body);
-
-
+      
 
 
         //check if the user already exist
@@ -123,7 +121,7 @@ module.exports = {
     },
 
     login: function (req, res) {
-        console.log(req.body.params);
+     
 
 
 
@@ -170,7 +168,7 @@ module.exports = {
     getById: function (req, res) {
 
 
-        console.log(req.params);
+     
         if (!req.params.id) {
             res.status(500).send('ID field is required.')
         }
@@ -268,9 +266,7 @@ function saltHashPassword(userpassword) {
 
     var salt = genRandomString(16);
     var passwordData = sha512(userpassword, salt);
-    // console.log("userpassword="+userpassword);
-    //	console.log('passwordHash='+passwordData.passwordHash);
-    //	console.log('nsalt='+passwordData.salt);
+
 
     return {
         salt: salt,
