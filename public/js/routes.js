@@ -2,34 +2,18 @@
 //////////////////  Routes  ////////////////// //
 //////////////////////////////////////////////////
 
-pos.config(['$stateProvider',
-  function ($stateProvider) {
+pos.config(['$stateProvider','$urlRouterProvider',
+  function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider.
       state('login', {
         url: '/',
-        resolve:{
-          user:['Auth','$q',function(Auth,$q){
-
-            if(Auth.user){
-              return $q.reject({authorized:true});
-            }
-
-          }]
-        },
         templateUrl: 'templates/login.html',
       }).
       state('home', {
         url: '/home',
         templateUrl: 'templates/home.html',
-        controller: 'inventoryController',
-        resolve: {
-          user: ['Auth', '$q', function (Auth, $q) {
-            console.log(Auth.user)
-
-            return Auth.user || $q.reject({ unAuthorized: true });
-          }]
-        }
+        controller: 'inventoryController'
       }).
       state('inventory', {
         url: '/inventory',
@@ -130,14 +114,8 @@ pos.config(['$stateProvider',
       state('analytics', {
         url: '/analytics',
         templateUrl: 'templates/analytics.html',
-        controller: 'analyticsController',
-        resolve: {
-          user: ['Auth', '$q', function (Auth, $q) {
-            console.log(Auth.user)
-
-            return Auth.user.user.role==="admin" || $q.reject({ unAuthorized: true });
-          }]
-        }
+        controller: 'analyticsController'
       });
+      $urlRouterProvider.otherwise('/');
 
   }]);

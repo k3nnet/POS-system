@@ -1,7 +1,6 @@
 var pos = angular.module('POS', [
-  'ngRoute',
+    'ui.router',
   'ngAnimate',
-  'ui.router',
   'lr.upload',
   'ui.odometer',
   'ngCookies'
@@ -51,72 +50,72 @@ pos.controller('body', function ($scope, $location, Settings) {
 });
 
 
-pos.controller('accountController', function ($scope, $stateParams,$cookieStore,Auth) {
+pos.controller('accountController', function ($scope, $stateParams, $cookieStore, Auth) {
 
-console.log($stateParams);
+  console.log($stateParams);
 
-$scope.register=false;
+  $scope.register = false;
 
-Auth.getUser($stateParams.id).then(function(result){
-  console.log(result[0]);
-  $scope.buttonText="Update"
-  var user=$scope.user=result[0];
-  $scope.newUser=user;
+  Auth.getUser($stateParams.id).then(function (result) {
+    console.log(result[0]);
+    $scope.buttonText = "Update"
+    var user = $scope.user = result[0];
+    $scope.newUser = user;
 
-  $scope.error={};
+    $scope.error = {};
 
-
-});
-
-
-$scope.add=function(){
-  $scope.newUser={};
-  $scope.register=true;
-  $scope.buttonText="ADD NEW USER"
-  $scope.success="";
-}
-
-$scope.registerUser=function(user){
-console.log(user);
-  Auth.register(user).then(function(result){
-
-    console.log(result);
-    if(result.success){
-      $scope.message="user registration successful";
-      $scope.newUser={};
-      $scope.register=false;
-    }else{
-      $scope.err="something went wrong.please try again";
-    }
-  })
-
-}
-
-
-
-
-$scope.update=function(user){
-  
-  console.log("update user")
-  console.log(user);
-  Auth.update(user).then(function(result){
-    
-    console.log(result);
-    if(result.message==="successful"){
-      $scope.success=true;
-      $scope.message=result.message;
-
-    }
-    else if(result.message==="unsuccessful"){
-      console.log(result)
-      $scope.success=false;
-      $scope.error.message=result.message;
-    }
-
-    
 
   });
-}
+
+
+  $scope.add = function () {
+    $scope.newUser = {};
+    $scope.register = true;
+    $scope.buttonText = "ADD NEW USER"
+    $scope.success = "";
+  }
+
+  $scope.registerUser = function (user) {
+    console.log(user);
+    Auth.register(user).then(function (result) {
+
+      console.log(result);
+      if (result.success) {
+        $scope.message = "user registration successful";
+        $scope.newUser = {};
+        $scope.register = false;
+      } else {
+        $scope.err = "something went wrong.please try again";
+      }
+    })
+
+  }
+
+
+
+
+  $scope.update = function (user) {
+
+    console.log("update user")
+    console.log(user);
+    Auth.update(user).then(function (result) {
+
+      console.log(result);
+      if (result.message === "successful") {
+        $scope.success = true;
+        $scope.message = result.message;
+
+      }
+      else if (result.message === "unsuccessful") {
+        console.log(result)
+        $scope.success = false;
+        $scope.error.message = result.message;
+      }
+
+
+
+    });
+  }
 
 
 })
@@ -209,7 +208,7 @@ pos.controller('editProductController', function ($scope, $location, $stateParam
 });
 
 // POS Section
-pos.controller('posController', function ($scope, $location, Inventory, Transactions,$cookieStore) {
+pos.controller('posController', function ($scope, $location, Inventory, Transactions, $cookieStore) {
 
   $scope.scan = false;
   $scope.scanIcon = "glyphicon glyphicon-plus";
@@ -429,7 +428,7 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
     cart.payment = angular.copy(payment);
     cart.date = new Date();
 
-    var user=$cookieStore.get('user').user;
+    var user = $cookieStore.get('user').user;
     console.log('user');
 
     Transactions.getAll().then(function (transactions) {
@@ -437,7 +436,7 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
       var orderNo = transactions.length;
 
       cart.orderNo = orderNo;
-      cart.saleBy=user.fullname;
+      cart.saleBy = user.fullname;
 
       console.log(cart);
 
@@ -643,11 +642,11 @@ pos.controller('analyticsController', function ($scope) {
     var byName = productNameDim.group();
     var byQuantity = quantityDim.group();
     var byDate = dateDim.group();
-    var byMonth= monthDim.group();
+    var byMonth = monthDim.group();
     var byBarcode = barcodeDim.group()
     var byDay = dayDim.group();
-    var byWeek= weekDim.group();
-   
+    var byWeek = weekDim.group();
+
 
 
 
@@ -755,7 +754,7 @@ pos.controller('analyticsController', function ($scope) {
       .group(netQauntity);
 
     revenue
-     .formatNumber(d3.format("d"))
+      .formatNumber(d3.format("d"))
       .valueAccessor(function (d) { return d; })
       .group(netTotal)
       .formatNumber(d3.format(".3s"));

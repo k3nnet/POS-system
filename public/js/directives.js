@@ -122,10 +122,10 @@ pos.directive('login',function (Auth,$state) {
            console.log("results: "+results);
            scope.message=results.message;
         }else{ 
-          
-            this.closeModal();
-           console.log("results: "+results.success); 
+            console.log("results: "+results.success); 
             $state.go('home');
+            this.closeModal();
+           
            
         }
 
