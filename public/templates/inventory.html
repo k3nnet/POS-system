@@ -1,8 +1,8 @@
-	<nav-menu ng-hide="onHomePage()"></nav-menu>
+	
 <div class="container">
 
-	<a ui-sref="createProduct" class="btn btn-success pull-right">
-		<i class="glyphicon glyphicon-plus"></i> Add New Item
+	<a ui-sref="home.createProduct" class="btn btn-success pull-right">
+		<i class="fa fa-plus"></i> Add New Item
 	</a>
 	<br/><br/>
 
@@ -31,7 +31,7 @@
 				<td> {{ product.price | currency:"R "}} </td>
 				<td> {{ product.products_at_hand }} </td>
 				<td>
-					<a class="btn btn-info" ui-sref="editProduct({id:product._id})" ng-click="editProduct(product._id)">
+					<a class="btn btn-info" ui-sref="home.editProduct({id:product._id})" ng-click="editProduct(product._id)">
 						<i class="glyphicon glyphicon-pencil"></i>
 					</a>
 				</td>

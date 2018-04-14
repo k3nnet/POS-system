@@ -49,8 +49,8 @@ pos.directive('productForm',function ($location) {
     link: function (scope, el) {
 
       // highlight barcode field
-      var $barcode = el.find('form').eq(0).find('input').eq(0);
-      var $name = el.find('form').eq(0).find('input').eq(1);
+      var $barcode = $('#barcode');
+      var $name = $('#name');
       $barcode.select();
 
       scope.tabOnEnter = function ($event) {
@@ -82,11 +82,16 @@ pos.directive('addManualItem',function () {
     link: function (scope, el) {
       
    //   scope.manualItem.price="place gikse";
+
+   scope.showModal=function(){
+ $('#myModal').appendTo('body').modal('show');
+   }
     
       scope.add = function () {
+       
         scope.manualItem.name = "Other";
         scope.addItem({item: scope.manualItem});
-        el.find('div').eq(0).modal('hide');
+        $('#myModal').modal('hide');
         scope.manualItem = '';
       };
 
@@ -123,7 +128,7 @@ pos.directive('login',function (Auth,$state) {
            scope.message=results.message;
         }else{ 
             console.log("results: "+results.success); 
-            $state.go('home');
+            $state.go('home.pos');
             this.closeModal();
            
            
@@ -160,8 +165,14 @@ pos.directive('checkout', function (Settings) {
     link: function (scope, el) {
       
       $paymentField = el.find('form').eq(0).find('input').eq(0);
+
+     
+
+
+
       
       scope.focusPayment = function () {
+        $('#checkoutModal').appendTo('body');
         $('#checkoutPaymentAmount').select();
       };
       
@@ -189,7 +200,7 @@ pos.directive('checkout', function (Settings) {
       };
 
       scope.closeModal = function () {
-        el.find('div').eq(0).modal('hide');
+        $('#checkoutModal').modal('hide');
         delete scope.paymentAmount;
         scope.transactionComplete = false;
       };
@@ -210,6 +221,11 @@ pos.directive('receipt',function (Settings,Transactions,$state) {
 
 
 
+
+     scope.openVoid=function(){
+       $('#validationDialog').appendTo('body').modal('show');
+     }
+
        scope.validate=function(user ){
          Transactions.validate(user).then(function(result){
            console.log(result);
@@ -217,8 +233,8 @@ pos.directive('receipt',function (Settings,Transactions,$state) {
            if(result.success){
               Transactions.remove(transaction._id).then(function(result){
             console.log(result);
-           this.closeModal();
-            $state.go('transactions');
+           $('#validationDialog').modal('hide');
+            $state.go('home.transactions');
              });
              
            }
@@ -233,7 +249,7 @@ pos.directive('receipt',function (Settings,Transactions,$state) {
       }
 
         closeModal = function () {
-        el.find('div').eq(0).modal('hide');
+        $('#validationDialog').modal('hide');
       
       };
 

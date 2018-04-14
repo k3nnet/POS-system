@@ -3,7 +3,12 @@ var pos = angular.module('POS', [
   'ngAnimate',
   'lr.upload',
   'ui.odometer',
-  'ngCookies'
+  'ngCookies',
+  'ui.bootstrap',
+  'ngMaterial',
+  'ngMessages',
+  'ngSanitize',
+  'angularMoment'
 ]);
 
 pos.run(['$rootScope', '$state', '$cookieStore', 'Auth', function ($rootScope, $state, $cookieStore, Auth) {
@@ -13,7 +18,7 @@ pos.run(['$rootScope', '$state', '$cookieStore', 'Auth', function ($rootScope, $
     if (error.unAuthorized) {
       $state.go('login');
     } else if (error.authorized) {
-      $state.go('home');
+      $state.go('home.pos');
     }
   })
 
@@ -136,7 +141,7 @@ pos.controller('inventoryController', function ($scope, $state, Inventory) {
 
 });
 
-pos.controller('newProductController', function ($scope, $location, $route, Inventory) {
+pos.controller('newProductController', function ($scope, $state, Inventory) {
 
   $scope.addMultipleProducts = false;
 
@@ -145,7 +150,7 @@ pos.controller('newProductController', function ($scope, $location, $route, Inve
     Inventory.createProduct($scope.newProduct).then(function (product) {
 
       if ($scope.addMultipleProducts) refreshForm();
-      else $location.path('/inventory');
+      else $state.go('home.inventory');
 
     });
 
@@ -159,7 +164,7 @@ pos.controller('newProductController', function ($scope, $location, $route, Inve
 
 
 
-pos.controller('editProductController', function ($scope, $location, $stateParams, Inventory, upload) {
+pos.controller('editProductController', function ($scope, $state, $stateParams, Inventory, upload) {
 
   console.log("route parameters:" + JSON.stringify($stateParams))
   // get and set inventory
@@ -174,12 +179,12 @@ pos.controller('editProductController', function ($scope, $location, $stateParam
       console.log('updated!');
     });
 
-    $location.path('/inventory');
+    $state.go('home.inventory');
   };
 
   $scope.deleteProduct = function () {
     Inventory.removeProduct($scope.product._id).then(function () {
-      $location.path('/inventory');
+     $state.go('home.inventory');
     });
   };
 
@@ -287,10 +292,16 @@ pos.controller('posController', function ($scope, $location, Inventory, Transact
       var barcode = $scope.barcode.toUpperCase();
 
       // if the barcode accumulated so far is valid, add product to cart
-      if ($scope.isValidProduct(barcode)) $scope.addProductToCart(barcode);
-      else
-        console.log('invalid barcode: ' + barcode);
-      // $scope.barcodeNotFoundError = true;
+      if ($scope.isValidProduct(barcode)){
+ $scope.addProductToCart(barcode);
+      }
+      
+      else{
+ console.log('invalid barcode: ' + barcode);
+       $scope.barcodeNotFoundError = true;
+       $scope.message="Invalid code .please check if item "+barcode+" is the Inventory";
+      }
+       
 
       $scope.barcode = '';
       $scope.$digest();
@@ -522,7 +533,8 @@ pos.controller('viewTransactionController', function ($scope, $stateParams, Tran
 });
 
 pos.controller('analyticsController', function ($scope) {
-
+  
+  $scope.time=new Date();
 
 
   queue()

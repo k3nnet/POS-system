@@ -30,7 +30,8 @@
     "angular-bootstrap": "^2.5.0",
     "jquery": "^3.3.1",
     "angular-odometer": "^0.0.10",
-    "angular-ui-router": "^1.0.15"
+    "angular-ui-router": "^1.0.15",
+    "angular-moment": "^1.2.0"
   },
   "description": "point of sale with analytics",
   "main": "server/server.js",

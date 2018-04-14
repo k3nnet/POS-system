@@ -1,5 +1,4 @@
-	<nav-menu ng-hide="onHomePage()"></nav-menu>
-<br/>
+
 
 <div class="text-center">
 	<span class="">Today's Sales</span> 
@@ -22,13 +21,13 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="transaction in transactions track by $index | orderBy: getTransactionDate(transaction):reverse">
+		<tr ng-repeat="transaction in transactions track by $index ">
 			<td> {{ transaction.date | date:'short' }} </td>
 			<td> {{ transaction.total | currency:"R"}} </td>
 			<td> {{ transaction.payment | currency:"R" }}</td>
 			<td> {{ getNumberOfProducts(transaction.products) }} </td>
 			<td>
-				<a class="btn btn-info" ui-sref="viewTransaction({id:transaction._id})">
+				<a class="btn btn-info" ui-sref="home.viewTransaction({id:transaction._id})">
 					<i class="glyphicon glyphicon-new-window"></i>
 				</a>
 			</td>

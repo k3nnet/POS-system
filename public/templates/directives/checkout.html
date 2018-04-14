@@ -1,22 +1,14 @@
 <button 
-  class="btn btn-success lead"
-  id="checkoutButton" 
+ class="btn btn-floating btn-primary btn-lg btn-block"
+
   ng-click="focusPayment()" 
   ng-disabled="cartTotal === 0" 
   data-toggle="modal" 
   data-target="#checkoutModal">
     <i class="glyphicon glyphicon-shopping-cart"></i>
-    <br/>
-    <br/>
-    C<br/>
-    h<br/>
-    e<br/>
-    c<br/>
-    k<br/>
-    o<br/>
-    u<br/>
-    t
+    checkout
 </button>
+
 
 <style>
   #checkoutPaymentAmount {
@@ -34,7 +26,7 @@
 <!-- Modal -->
 <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+    <div class="modal-content text-center">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Checkout</h4>
@@ -80,3 +72,5 @@
     </div>
   </div>
 </div>
+
+

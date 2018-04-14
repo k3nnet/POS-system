@@ -13,105 +13,50 @@ pos.config(['$stateProvider','$urlRouterProvider',
       state('home', {
         url: '/home',
         templateUrl: 'templates/home.html',
+        abstract: true,
         controller: 'inventoryController'
       }).
-      state('inventory', {
+      state('home.inventory', {
         url: '/inventory',
         templateUrl: 'templates/inventory.html',
-        controller: 'inventoryController',
-        resolve: {
-          user: ['Auth', '$q', function (Auth, $q) {
-            console.log(Auth.user.user.email)
-
-            return Auth.user.user || $q.reject({ unAuthorized: true });
-          }]
-        }
+        controller: 'inventoryController'
       }).
-      state('createProduct', {
+      state('home.createProduct', {
         url: '/inventory/create-product',
         templateUrl: 'templates/inventory/create-product.html',
-        controller: 'newProductController',
-        resolve: {
-          user: ['Auth', '$q', function (Auth, $q) {
-            console.log(Auth.user)
-
-            return Auth.user.user || $q.reject({ unAuthorized: true });
-          }]
-        }
+        controller: 'newProductController'
       }).
-      state('editProduct', {
+      state('home.editProduct', {
         url: '/inventory/product/:id',
         templateUrl: 'templates/inventory/edit-product.html',
-        controller: 'editProductController',
-        resolve: {
-          user: ['Auth', '$q', function (Auth, $q) {
-            console.log(Auth.user)
-
-            return Auth.user.user.role==="admin" || $q.reject({ unAuthorized: true });
-          }]
-        }
+        controller: 'editProductController'
       }).
-      state('pos', {
+      state('home.pos', {
         url: '/pos',
         templateUrl: 'templates/pos.html',
-        controller: 'posController',
-        resolve: {
-          user: ['Auth', '$q', function (Auth, $q) {
-            console.log(Auth.user)
-
-            return Auth.user || $q.reject({ unAuthorized: true });
-          }]
-        }
+        controller: 'posController'
       }).
-      state('liveCart', {
+      state('home.liveCart', {
         url: '/live-cart',
         templateUrl: 'templates/live-cart.html',
-        controller: 'liveCartController',
-        resolve: {
-          user: ['Auth', '$q', function (Auth, $q) {
-            console.log(Auth.user)
-
-            return Auth.user || $q.reject({ unAuthorized: true });
-          }]
-        }
+        controller: 'liveCartController'
       }).
-      state('transactions', {
+      state('home.transactions', {
         url: '/transactions',
         templateUrl: 'templates/transactions.html',
-        controller: 'transactionsController',
-          resolve: {
-          user: ['Auth', '$q', function (Auth, $q) {
-            console.log(Auth.user)
-
-            return Auth.user.user || $q.reject({ unAuthorized: true });
-          }]
-        }
+        controller: 'transactionsController'
       }).
-      state('viewTransaction', {
+      state('home.viewTransaction', {
         url: '/transaction/:id',
         templateUrl: 'templates/view-transaction.html',
-        controller: 'viewTransactionController',
-        resolve: {
-          user: ['Auth', '$q', function (Auth, $q) {
-            console.log(Auth.user)
-
-            return Auth.user.user || $q.reject({ unAuthorized: true });
-          }]
-        }
+        controller: 'viewTransactionController'
       }).
-      state('userAccount', {
+      state('home.userAccount', {
         url: '/user/:id',
         templateUrl: 'templates/directives/account-form.html',
-        controller: 'accountController',
-        resolve: {
-          user: ['Auth', '$q', function (Auth, $q) {
-            console.log(Auth.user)
-
-            return Auth.user || $q.reject({ unAuthorized: true });
-          }]
-        }
+        controller: 'accountController'
       }).
-      state('analytics', {
+      state('home.analytics', {
         url: '/analytics',
         templateUrl: 'templates/analytics.html',
         controller: 'analyticsController'

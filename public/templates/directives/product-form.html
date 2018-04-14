@@ -1,5 +1,5 @@
 
-<form class="form-horizontal col-md-6 col-centered" name="newProductForm" ng-submit="newProductForm.$valid && save()">
+<form class="form-horizontal col-md-6 col-centered" name="newProductForm" >
 
 	<div class="form-group" ng-class="{ 'has-error': newProductForm.barcode.$error.required }">
 	  <label class="col-md-4 control-label" for="barcode">Barcode</label>  
@@ -19,6 +19,7 @@
 	  <label class="col-md-4 control-label" for="name">Name</label>  
 	  <div class="col-md-4">
 	  	<input 
+			id="name"
 	  		name="name" 
 	  		placeholder="Name" 
 	  		class="form-control"
@@ -74,7 +75,7 @@
 	<br/> <br/> <br/>
 	<div class="text-center">
 		<button 
-			type="submit" 
+			ng-click="save()" 
 			ng-disabled="!newProductForm.$valid || newProductForm.$pristine" 
 			class="btn btn-success btn-lg col-centered">
 			Submit
