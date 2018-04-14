@@ -120,7 +120,7 @@ pos.directive('login',function (Auth,$state) {
 
 
         Auth.login(user).then(function(results){
-        
+         console.log(results)
 
         
         if(!results.success){

@@ -87,7 +87,8 @@ pos.factory('Auth', ['$http', '$cookieStore','$state', function ($http, $cookieS
 
   var authApiUrl = '/auth/';
 
-  var auth = {};
+  var account = {};
+  var auth={};
 
 
   //login user
@@ -96,16 +97,19 @@ pos.factory('Auth', ['$http', '$cookieStore','$state', function ($http, $cookieS
 
     return $http.post(url, { params: { email: user.name, password: user.password } }).then(function (res) {
       console.log(res);
-      auth.user = res.data
+      account.user = res.data
+      console.log(account.user);
 
-      if(auth.user.success){
-        $cookieStore.put('user', auth.user);
+      if(account.user.success){
+        $cookieStore.put('user', account.user);
+        console.log("account logged in")
+       
+        }
 
-    
-
-      }
+        return res.data;
+        
       
-      return auth.user;
+      
     });
   }
 

@@ -11,18 +11,43 @@ var pos = angular.module('POS', [
   'angularMoment'
 ]);
 
-pos.run(['$rootScope', '$state', '$cookieStore', 'Auth', function ($rootScope, $state, $cookieStore, Auth) {
+pos.run(['$rootScope', '$state', '$cookieStore', 'Auth','$trace','$transitions', function ($rootScope, $state, $cookieStore, Auth,$trace,$transitions) {
 
-  $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-    console.log(error)
-    if (error.unAuthorized) {
-      $state.go('login');
-    } else if (error.authorized) {
-      $state.go('home.pos');
-    }
-  })
 
-  Auth.user = $cookieStore.get('user');
+$trace.enable('TRANSITION');
+var user;
+
+$transitions.onBefore({to:'home.**'},function(transition){
+   Auth.user = $cookieStore.get('user');
+   user=Auth.user;
+   auth=transition.injector().get('Auth');
+     console.log(user);
+
+     if(!Auth.user){
+          return transition.router.stateService.target("login");
+
+     }
+
+})
+
+$transitions.onBefore({to:'home.editProduct'},function(transition){
+  console.log("staff should not have access to this")
+  console.log(user.user.role);
+  if(user.user.role==="staff"){
+    return transition.router.stateService.target("home.inventory")
+  }
+})
+
+
+$transitions.onBefore({to:'home.analytics'},function(transition){
+  console.log("staff should not have access to this")
+  console.log(user.user.role);
+  if(user.user.role==="staff"){
+    return transition.router.stateService.target("home.pos")
+  }
+})
+
+
 }]);
 
 
