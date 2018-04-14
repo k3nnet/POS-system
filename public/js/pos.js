@@ -127,7 +127,22 @@ pos.controller('accountController', function ($scope, $stateParams, $cookieStore
 
 // Inventory Section
 
-pos.controller('inventoryController', function ($scope, $state, Inventory) {
+pos.controller('inventoryController', function (Auth,$scope,$cookieStore, $state, Inventory) {
+
+   $scope.user=$cookieStore.get('user').user;
+    $scope.logout=function(){
+       
+        Auth.logout().then(function(result){
+          console.log(result);
+          $state.go('login');
+        });
+       
+
+      }
+      $scope.account=function(_id){
+        $state.go('userAccount',{id:_id});
+        console.log(_id);
+      }
 
   // get and set inventory
   Inventory.getProducts().then(function (products) {

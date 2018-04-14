@@ -124,7 +124,7 @@ pos.factory('Auth', ['$http', '$cookieStore','$state', function ($http, $cookieS
       console.log(response.data)
       auth.user = undefined;
       $cookieStore.remove('user');
-      $state.go('login');
+       return response.data;
     })
 
   }

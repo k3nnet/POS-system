@@ -2,16 +2,11 @@
 <div class="wrapper">
     <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
 
-    <!--
 
-        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
-        Tip 2: you can also add an image using data-image tag
-
-    -->
 
     	<div class="sidebar-wrapper">
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text">
+                <a ui-sref="home.pos" class="simple-text">
                     Mog Pro Tech POS
                 </a>
             </div>
@@ -43,7 +38,7 @@
                 </li>
               
 				<li class="active-pro">
-                    <a href="upgrade.html">
+                    <a ng-click="logout()">
                         <i class="pe-7s-power"></i>
                         <p>logout</p>
                     </a>
@@ -67,11 +62,12 @@
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a ui-sref='home.userAccount({id:user._id})' >
                                 <i class="pe-7s-users" ></i>
-								<p class="hidden-lg hidden-md">account</p>
+								<p >account</p>
                             </a>
                         </li>
+                        
                     </ul>
                 </div>
             </div>
