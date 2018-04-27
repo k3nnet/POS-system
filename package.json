@@ -4,6 +4,8 @@
   "description": "point of sale",
   "main": "server/server.js",
   "scripts": {
+    "start": "web: server/server.js",
+    "postinstall": "bower install --force",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

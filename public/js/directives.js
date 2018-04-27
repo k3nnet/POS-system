@@ -115,8 +115,7 @@ pos.directive('login',function (Auth,$state) {
     
 
       scope.login = function (user) {
-        console.log(user);
-
+       
 
 
         Auth.login(user).then(function(results){
