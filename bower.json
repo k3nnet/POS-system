@@ -31,7 +31,8 @@
     "jquery": "^3.3.1",
     "angular-odometer": "^0.0.10",
     "angular-ui-router": "^1.0.15",
-    "angular-moment": "^1.2.0"
+    "angular-moment": "^1.2.0",
+    "moment": "^2.22.1"
   },
   "description": "point of sale with analytics",
   "main": "server/server.js",
