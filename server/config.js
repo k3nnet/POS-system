@@ -1,4 +1,4 @@
 module.exports={
     secret:"any text in here",
-    database:"mongodb://zeefood:trial@ds159489.mlab.com:59489/pos"
+    database:"mongodb://trial:trial@ds113640.mlab.com:13640/pos"
 }
